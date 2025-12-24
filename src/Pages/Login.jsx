@@ -16,7 +16,7 @@ const Login = () => {
     try {
       // Use environment variable for API URL
       const { data } = await axios.post(
-        `${import.meta.env.VITE_API_URL}/api/auth/login`,
+      `${import.meta.env.VITE_API_URL}/api/auth/login`,
         { email, password },
          {
     headers: {
@@ -44,7 +44,7 @@ const Login = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-100 to-gray-200 px-4">
+    <div className="min-h-screen flex items-center justify-center bg-gray-600 px-4 ">
       <div className="w-full max-w-md bg-white rounded-2xl shadow-xl p-8">
 
         {/* Header */}
