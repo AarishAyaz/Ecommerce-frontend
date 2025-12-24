@@ -17,7 +17,12 @@ const Signup = () => {
         try {
             const{data} = await axios.post(
                 `${import.meta.env.VITE_API_URL}/api/auth/register`,
-                {name, email, password}
+                {name, email, password},
+                 {
+    headers: {
+      "Content-Type": "application/json"
+    }
+  }
             );
             localStorage.setItem("token", data.token);
                   toast.success("Signup successful");

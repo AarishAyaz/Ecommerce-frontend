@@ -17,7 +17,12 @@ const Login = () => {
       // Use environment variable for API URL
       const { data } = await axios.post(
         `${import.meta.env.VITE_API_URL}/api/auth/login`,
-        { email, password }
+        { email, password },
+         {
+    headers: {
+      "Content-Type": "application/json"
+    }
+  }
       );
 
       // Save token and user info
