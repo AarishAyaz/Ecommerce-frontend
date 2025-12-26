@@ -4,7 +4,7 @@ import Login from "./Pages/Login";
 import { Routes, Route } from "react-router-dom";
 import PrivateRoute from "./routes/PrivateRoute";
 import Signup from "./Pages/Signup";
-import RouteLoader from "./components/RouteLoader";
+import Profile from "./Pages/Profile";
 
 function App() {
   return (
@@ -19,6 +19,8 @@ function App() {
             </PrivateRoute>
           }
         />
+          <Route path="/profile" element={<Profile />} />
+
       </Routes>
   );
 }

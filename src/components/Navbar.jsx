@@ -63,21 +63,21 @@ const Navbar = () => {
   // Navigate handler
   const handleNavigate = (path) => {
     console.log(`Navigating to ${path}`);
-     navigate("/login");
- 
+    navigate("/login");
+
     setOpen(false);
   };
 
   // Logout handler
   const handleLogout = () => {
-  localStorage.removeItem("token");
+    localStorage.removeItem("token");
 
-  toast.success("Logged out successfully 👋");
+    toast.success("Logged out successfully 👋");
 
-  setTimeout(() => {
-    navigate("/login", { replace: true });
-  }, 800);
-};
+    setTimeout(() => {
+      navigate("/login", { replace: true });
+    }, 800);
+  };
   return (
     <nav
       className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ${
@@ -103,28 +103,37 @@ const Navbar = () => {
 
           {/* Desktop Menu */}
           <ul className="hidden lg:flex items-center space-x-1 xl:space-x-2">
-            {["home", "categories", "products", "articles", "contact"].map((item) => (
-              <li key={item}>
-                <button
-                  onClick={() => scrollToSection(item)}
-                  className="px-3 xl:px-4 py-2 text-sm xl:text-base font-medium text-gray-300 
+            {["home", "categories", "products", "articles", "contact"].map(
+              (item) => (
+                <li key={item}>
+                  <button
+                    onClick={() => scrollToSection(item)}
+                    className="px-3 xl:px-4 py-2 text-sm xl:text-base font-medium text-gray-300 
                            hover:text-white hover:bg-slate-800 rounded-lg transition-all capitalize"
-                >
-                  {item}
-                </button>
-              </li>
-            ))}
+                  >
+                    {item}
+                  </button>
+                </li>
+              )
+            )}
 
             {/* User Badge */}
             {isAuthenticated && (
               <li className="ml-2 xl:ml-4">
-                <div className="flex items-center gap-2 px-3 xl:px-4 py-2 bg-slate-800 
-                              border border-slate-700 rounded-lg text-gray-200">
+                <button
+                  onClick={() => navigate("/profile")}
+                  className="flex items-center gap-2 px-3 xl:px-4 py-2 bg-slate-800 
+               border border-slate-700 rounded-lg text-gray-200
+               hover:bg-slate-700 hover:border-indigo-500
+               transition-all cursor-pointer"
+                >
                   <div className="bg-indigo-500 p-1 rounded-full">
                     <User className="w-3 h-3 xl:w-4 xl:h-4 text-white" />
                   </div>
-                  <span className="font-medium text-sm xl:text-base">{userName}</span>
-                </div>
+                  <span className="font-medium text-sm xl:text-base">
+                    {userName}
+                  </span>
+                </button>
               </li>
             )}
 
@@ -169,14 +178,18 @@ const Navbar = () => {
                 </li>
               </>
             )}*/}
-          </ul> 
+          </ul>
 
           {/* Mobile Menu Button */}
           <button
             className="lg:hidden text-gray-300 hover:text-white transition-colors p-2"
             onClick={() => setOpen(!open)}
           >
-            {open ? <X className="w-6 h-6 sm:w-7 sm:h-7" /> : <Menu className="w-6 h-6 sm:w-7 sm:h-7" />}
+            {open ? (
+              <X className="w-6 h-6 sm:w-7 sm:h-7" />
+            ) : (
+              <Menu className="w-6 h-6 sm:w-7 sm:h-7" />
+            )}
           </button>
         </div>
       </div>
@@ -185,28 +198,38 @@ const Navbar = () => {
       {open && (
         <div className="lg:hidden bg-slate-900 border-t border-slate-800 shadow-xl">
           <ul className="px-4 py-4 space-y-2">
-            {["home", "categories", "products", "articles", "contact"].map((item) => (
-              <li key={item}>
-                <button
-                  onClick={() => scrollToSection(item)}
-                  className="w-full text-left px-4 py-3 text-base font-medium text-gray-300 
+            {["home", "categories", "products", "articles", "contact"].map(
+              (item) => (
+                <li key={item}>
+                  <button
+                    onClick={() => scrollToSection(item)}
+                    className="w-full text-left px-4 py-3 text-base font-medium text-gray-300 
                            hover:text-white hover:bg-slate-800 rounded-lg transition-all capitalize"
-                >
-                  {item}
-                </button>
-              </li>
-            ))}
+                  >
+                    {item}
+                  </button>
+                </li>
+              )
+            )}
 
             {/* Mobile User Badge */}
             {isAuthenticated && (
               <li className="pt-2">
-                <div className="flex items-center gap-3 px-4 py-3 bg-slate-800 
-                              border border-slate-700 rounded-lg">
+                <button
+                  onClick={() => {
+                    navigate("/profile");
+                    setOpen(false);
+                  }}
+                  className="w-full flex items-center gap-3 px-4 py-3 bg-slate-800 
+               border border-slate-700 rounded-lg
+               hover:bg-slate-700 hover:border-indigo-500
+               transition-all"
+                >
                   <div className="bg-indigo-500 p-2 rounded-full">
                     <User className="w-4 h-4 text-white" />
                   </div>
                   <span className="font-medium text-gray-200">{userName}</span>
-                </div>
+                </button>
               </li>
             )}
 
