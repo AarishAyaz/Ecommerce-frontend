@@ -1,12 +1,10 @@
 import { useState } from "react";
 import {
   User,
-  Lock,
   Save,
   ArrowLeft,
   CheckCircle,
   Mail,
-  Key,
   Shield,
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
@@ -16,8 +14,10 @@ import { toast } from "react-hot-toast";
 const Profile = () => {
   const navigate = useNavigate();
 
-  const user = JSON.parse(localStorage.getItem("user"));
-  const token = localStorage.getItem("token");
+  // ✅ Single source of truth
+  const auth = JSON.parse(localStorage.getItem("auth"));
+  const user = auth?.user;
+  const token = auth?.token;
 
   const [name, setName] = useState(user?.name || "");
   const [currentPassword, setCurrentPassword] = useState("");
@@ -25,6 +25,7 @@ const Profile = () => {
   const [loading, setLoading] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
 
+  /* ---------------- Submit ---------------- */
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -43,11 +44,11 @@ const Profile = () => {
 
       if (newPassword) {
         payload.password = newPassword;
-        payload.currentPassword = currentPassword; // for future backend validation
+        payload.currentPassword = currentPassword;
       }
 
       const { data } = await axios.put(
-        "http://localhost:5000/api/users/profile",
+        `${import.meta.env.VITE_API_URL}/api/users/profile`,
         payload,
         {
           headers: {
@@ -56,15 +57,29 @@ const Profile = () => {
         }
       );
 
-      localStorage.setItem("user", JSON.stringify(data.user));
+      // ✅ Update auth in localStorage
+      localStorage.setItem(
+        "auth",
+        JSON.stringify({
+          token,
+          user: data.user,
+        })
+      );
 
       toast.success("Profile updated successfully 🎉");
       setIsSuccess(true);
 
       setCurrentPassword("");
       setNewPassword("");
-      localStorage.removeItem("token"); // log out user after profile update
-      setTimeout(() => navigate("/login"), 1000);
+
+      // 🔐 Logout only if password changed
+      if (newPassword) {
+        toast("Please login again 🔐");
+        setTimeout(() => {
+          localStorage.removeItem("auth");
+          navigate("/login", { replace: true });
+        }, 1200);
+      }
     } catch (error) {
       toast.error(error.response?.data?.message || "Update failed");
     } finally {
@@ -116,14 +131,11 @@ const Profile = () => {
             {/* Name */}
             <div>
               <label className="text-sm text-gray-300">Full Name</label>
-              <div className="relative mt-1">
-                <User className="absolute left-4 top-3.5 w-5 h-5 text-gray-400" />
-                <input
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
-                  className="w-full pl-12 py-3 bg-slate-700 border border-slate-600 rounded-xl text-white"
-                />
-              </div>
+              <input
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                className="w-full mt-1 px-4 py-3 bg-slate-700 border border-slate-600 rounded-xl text-white"
+              />
             </div>
 
             {/* Email */}
@@ -144,7 +156,9 @@ const Profile = () => {
 
             {/* Password */}
             <div>
-              <label className="text-sm text-gray-300">Current Password</label>
+              <label className="text-sm text-gray-300">
+                Current Password
+              </label>
               <input
                 type="password"
                 value={currentPassword}
@@ -169,13 +183,7 @@ const Profile = () => {
               disabled={loading}
               className="w-full bg-gradient-to-r from-indigo-600 to-purple-600 py-4 rounded-xl font-bold text-white flex justify-center gap-2"
             >
-              {loading ? (
-                <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" />
-              ) : (
-                <>
-                  <Save className="w-5 h-5" /> Save Changes
-                </>
-              )}
+              {loading ? "Saving..." : <><Save /> Save Changes</>}
             </button>
 
             <p className="text-center text-xs text-gray-500">

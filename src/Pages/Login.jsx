@@ -28,9 +28,18 @@ const Login = () => {
         }
       );
 
-      // Save token and user info
-      localStorage.setItem("token", data.token);
-      localStorage.setItem("user", JSON.stringify(data.user));
+    const authData = {
+  token: data.token,       // JWT from backend
+  user: {
+    id: data.user._id,
+    name: data.user.name,
+    email: data.user.email,
+    isAdmin: data.user.isAdmin,
+  },
+};
+
+localStorage.setItem("auth", JSON.stringify(authData));
+
 
       // Success toast
       if (toast) {
@@ -38,9 +47,12 @@ const Login = () => {
       }
 
       // Navigate to home
-      if (navigate) {
-        navigate("/");
-      }
+if (data.user.isAdmin) {
+  navigate("/admin/dashboard");
+} else {
+  navigate("/");
+}
+
     } catch (error) {
       if (toast) {
         toast.error(
