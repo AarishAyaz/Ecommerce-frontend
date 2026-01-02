@@ -94,7 +94,7 @@ const Navbar = () => {
               <li key={item}>
                 <button
                   onClick={() => scrollToSection(item)}
-                  className="px-4 py-2 text-gray-300 hover:text-white hover:bg-slate-800 rounded-lg capitalize"
+                  className="px-4 py-2 text-gray-300 hover:text-white hover:bg-slate-800 rounded-lg capitalize cursor-pointer"
                 >
                   {item}
                 </button>
@@ -108,7 +108,7 @@ const Navbar = () => {
               <li>
                 <button
                   onClick={() => handleNavigate("/profile")}
-                  className="flex items-center gap-2 px-4 py-2 bg-slate-800 rounded-lg text-gray-200 hover:bg-slate-700"
+                  className="flex items-center gap-2 px-4 py-2 bg-slate-800 rounded-lg text-gray-200 hover:bg-slate-700 cursor-pointer"
                 >
                   <User className="w-4 h-4" />
                   {userName}
@@ -118,9 +118,9 @@ const Navbar = () => {
               <li>
                 <button
                   onClick={handleLogout}
-                  className="flex items-center gap-2 bg-red-600 hover:bg-red-700 px-4 py-2 rounded-lg text-white"
+                  className="flex items-center gap-2 bg-red-600 hover:bg-red-700 px-4 py-2 rounded-lg text-white cursor-pointer"
                 >
-                  <LogOut className="w-4 h-4" />
+                  <LogOut className="w-4 h-4 cursor-" />
                   Logout
                 </button>
               </li>

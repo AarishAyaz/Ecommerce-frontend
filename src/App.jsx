@@ -7,6 +7,7 @@ import { Routes, Route } from "react-router-dom";
 import PrivateRoute from "./routes/PrivateRoute";
 import AdminRoute from "./routes/AdminRoute";
 import AdminDashboard from "./admin/AminDashboard";
+import Users from "./admin/Users";
 
 
 function App() {
@@ -41,6 +42,14 @@ function App() {
         element={
           <AdminRoute>
             <AdminDashboard />
+          </AdminRoute>
+        }
+      />
+      <Route 
+        path="/admin/users"
+        element={
+          <AdminRoute>
+            <Users />
           </AdminRoute>
         }
       />
