@@ -2,6 +2,7 @@ import { useState } from "react";
 import { ShoppingBag, Mail, Lock, ArrowRight } from "lucide-react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import ForgotPassword from "./ForgotPassword";
 import toast from "react-hot-toast";
 
 const Login = () => {
@@ -170,6 +171,7 @@ return (
             {/* Forgot password */}
             <div className="flex justify-end">
               <button
+                onClick={() => navigate("/forgot-password")}
                 type="button"
                 className="text-indigo-400 hover:text-indigo-300
                            text-[clamp(0.75rem,0.9vw,0.9rem)]

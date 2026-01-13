@@ -8,6 +8,8 @@ import PrivateRoute from "./routes/PrivateRoute";
 import AdminRoute from "./routes/AdminRoute";
 import AdminDashboard from "./admin/AminDashboard";
 import Users from "./admin/Users";
+import AddUser from "./admin/AddUser";
+import ForgotPassword from "./Pages/ForgotPassword";
 
 
 function App() {
@@ -35,7 +37,12 @@ function App() {
           </PrivateRoute>
         }
       />
-
+    <Route
+      path="/forgot-password"
+      element={
+          <ForgotPassword />
+      }
+    />
       {/* Admin protected routes */}
       <Route
         path="/admin/dashboard"
@@ -50,6 +57,14 @@ function App() {
         element={
           <AdminRoute>
             <Users />
+          </AdminRoute>
+        }
+      />
+      <Route
+        path="/admin/users/add"
+        element={
+          <AdminRoute>
+            <AddUser />
           </AdminRoute>
         }
       />
