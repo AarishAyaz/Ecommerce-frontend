@@ -30,7 +30,6 @@ const Login = () => {
       );
 
     const authData = {
-  token: data.token,       // JWT from backend
   user: {
     id: data.user._id,
     name: data.user.name,
@@ -39,7 +38,9 @@ const Login = () => {
   },
 };
 
-localStorage.setItem("auth", JSON.stringify(authData));
+// localStorage.setItem("auth", JSON.stringify(authData));
+localStorage.setItem("token", data.token);   // store only the JWT string
+localStorage.setItem("auth", JSON.stringify(authData)); // store user info separately
 
 
       // Success toast

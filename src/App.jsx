@@ -10,11 +10,16 @@ import AdminDashboard from "./admin/AminDashboard";
 import Users from "./admin/Users";
 import AddUser from "./admin/AddUser";
 import ForgotPassword from "./Pages/ForgotPassword";
-
+import AdminProducts from "./admin/AdminProducts";
+import AddProduct from "./admin/AddProducts";
+import EditProduct from "./admin/EditProduct";
+import AdminCategories from "./admin/AdminCategories";
+import AddCategory from "./admin/AddCategory";
+import EditCategory from "./admin/EditCategory";
 
 function App() {
   return (
-       <Routes>
+    <Routes>
       {/* Public routes */}
       <Route path="/login" element={<Login />} />
       <Route path="/signup" element={<Signup />} />
@@ -37,12 +42,7 @@ function App() {
           </PrivateRoute>
         }
       />
-    <Route
-      path="/forgot-password"
-      element={
-          <ForgotPassword />
-      }
-    />
+      <Route path="/forgot-password" element={<ForgotPassword />} />
       {/* Admin protected routes */}
       <Route
         path="/admin/dashboard"
@@ -52,7 +52,7 @@ function App() {
           </AdminRoute>
         }
       />
-      <Route 
+      <Route
         path="/admin/users"
         element={
           <AdminRoute>
@@ -68,6 +68,17 @@ function App() {
           </AdminRoute>
         }
       />
+      <Route path="/admin/categories" element={<AdminCategories />} />
+      <Route path="/admin/categories/add" element={
+        <AdminRoute>
+            <AddCategory />
+        </AdminRoute>
+      } />
+      <Route path="/admin/categories/edit/:id" element={<EditCategory />} />
+
+      <Route path="/admin/products" element={<AdminProducts />} />
+      <Route path="/admin/products/add" element={<AddProduct />} />
+      <Route path="/admin/products/edit/:id" element={<EditProduct />} />
     </Routes>
   );
 }

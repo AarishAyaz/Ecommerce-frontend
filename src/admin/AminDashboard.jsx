@@ -40,7 +40,7 @@ const AdminDashboard = () => {
   };
 
   const handleLogout = () => {
-    localStorage.removeItem("token");
+    localStorage.removeItem("auth");
     localStorage.removeItem("user");
     toast.success("Logged out successfully");
     navigate("/login");
