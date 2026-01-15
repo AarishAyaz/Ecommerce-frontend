@@ -68,7 +68,7 @@ const AdminCategories = () => {
 
           {categories.map((c) => (
             <tr key={c._id} className="border-t border-slate-700">
-              <td className="p-4">{c.name}</td>
+              <td className="p-4 cursor-pointer hover:text-indigo-400"   onClick={() => navigate(`/admin/categories/${c._id}/products`)}>{c.name}</td>
               <td className="p-4 flex justify-end gap-4">
                 <Edit
                   className="cursor-pointer"

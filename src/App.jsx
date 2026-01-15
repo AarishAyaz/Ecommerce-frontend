@@ -14,9 +14,11 @@ import ForgotPassword from "./Pages/ForgotPassword";
 import AdminProducts from "./admin/AdminProducts";
 import AddProduct from "./admin/AddProducts";
 import EditProduct from "./admin/EditProduct";
+import ViewProduct from "./admin/ViewProduct";
 import AdminCategories from "./admin/AdminCategories";
 import AddCategory from "./admin/AddCategory";
 import EditCategory from "./admin/EditCategory";
+import CategoryProducts from "./admin/CategoryProducts";
 
 function App() {
   return (
@@ -85,9 +87,11 @@ function App() {
         </AdminRoute>
       } />
       <Route path="/admin/categories/edit/:id" element={<EditCategory />} />
+      <Route path="/admin/categories/:id/products" element={<CategoryProducts />} />
 
       <Route path="/admin/products" element={<AdminProducts />} />
       <Route path="/admin/products/add" element={<AddProduct />} />
+      <Route path="/admin/products/view/:id" element={<ViewProduct />} />
       <Route path="/admin/products/edit/:id" element={<EditProduct />} />
     </Routes>
   );
