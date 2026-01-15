@@ -9,6 +9,7 @@ import AdminRoute from "./routes/AdminRoute";
 import AdminDashboard from "./admin/AminDashboard";
 import Users from "./admin/Users";
 import AddUser from "./admin/AddUser";
+import EditUser from "./admin/EditUser";
 import ForgotPassword from "./Pages/ForgotPassword";
 import AdminProducts from "./admin/AdminProducts";
 import AddProduct from "./admin/AddProducts";
@@ -67,6 +68,15 @@ function App() {
             <AddUser />
           </AdminRoute>
         }
+      />
+
+      <Route
+        path="/admin/users/:id/edit" element={
+          <AdminRoute>
+                    <EditUser />
+
+          </AdminRoute>
+      } 
       />
       <Route path="/admin/categories" element={<AdminCategories />} />
       <Route path="/admin/categories/add" element={

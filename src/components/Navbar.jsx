@@ -51,8 +51,9 @@ const Navbar = () => {
 
   /* ---------------- Logout ---------------- */
   const handleLogout = () => {
-    localStorage.removeItem("auth");
+    localStorage.clear();
     setAuth(null);
+    
 
     toast.success("Logged out successfully 👋");
     navigate("/login", { replace: true });

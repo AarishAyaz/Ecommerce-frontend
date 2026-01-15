@@ -30,6 +30,7 @@ const Login = () => {
       );
 
     const authData = {
+      token : data.token,
   user: {
     id: data.user._id,
     name: data.user.name,
@@ -38,9 +39,9 @@ const Login = () => {
   },
 };
 
-// localStorage.setItem("auth", JSON.stringify(authData));
-localStorage.setItem("token", data.token);   // store only the JWT string
-localStorage.setItem("auth", JSON.stringify(authData)); // store user info separately
+  localStorage.setItem("auth", JSON.stringify(authData));
+// localStorage.setItem("token", data.token);   // store only the JWT string
+// localStorage.setItem("auth", JSON.stringify(authData)); // store user info separately
 
 
       // Success toast
@@ -114,6 +115,7 @@ return (
         </div>
 
         {/* Form */}
+        <form onSubmit={handleSubmit}>
         <div className="flex-1 overflow-y-auto px-6 py-6">
           <div className="space-y-4">
 
@@ -184,8 +186,8 @@ return (
 
             {/* Button */}
             <button
-              type="button"
-              onClick={handleSubmit}
+              type="submit"
+              
               disabled={loading}
               className="w-full mt-1 py-3 rounded-xl font-semibold
                          text-[clamp(0.9rem,1.1vw,1.05rem)]
@@ -225,7 +227,9 @@ return (
             </button>
           </div>
         </div>
+        </form>
       </div>
+      
 
       {/* Footer */}
       <p className="mt-5 text-center text-gray-400
