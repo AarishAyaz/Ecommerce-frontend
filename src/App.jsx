@@ -19,6 +19,9 @@ import AdminCategories from "./admin/AdminCategories";
 import AddCategory from "./admin/AddCategory";
 import EditCategory from "./admin/EditCategory";
 import CategoryProducts from "./admin/CategoryProducts";
+import AdminArticles from "./admin/AdminArticles";
+import AddArticle from "./admin/AddArticle";
+import EditArticle from "./admin/EditArticle";
 
 function App() {
   return (
@@ -73,26 +76,44 @@ function App() {
       />
 
       <Route
-        path="/admin/users/:id/edit" element={
+        path="/admin/users/:id/edit"
+        element={
           <AdminRoute>
-                    <EditUser />
-
+            <EditUser />
           </AdminRoute>
-      } 
+        }
       />
       <Route path="/admin/categories" element={<AdminCategories />} />
-      <Route path="/admin/categories/add" element={
-        <AdminRoute>
+      <Route
+        path="/admin/categories/add"
+        element={
+          <AdminRoute>
             <AddCategory />
-        </AdminRoute>
-      } />
+          </AdminRoute>
+        }
+      />
       <Route path="/admin/categories/edit/:id" element={<EditCategory />} />
-      <Route path="/admin/categories/:id/products" element={<CategoryProducts />} />
+      <Route
+        path="/admin/categories/:id/products"
+        element={<CategoryProducts />}
+      />
 
       <Route path="/admin/products" element={<AdminProducts />} />
       <Route path="/admin/products/add" element={<AddProduct />} />
       <Route path="/admin/products/view/:id" element={<ViewProduct />} />
       <Route path="/admin/products/edit/:id" element={<EditProduct />} />
+
+      <Route path="/admin/articles" element={<AdminArticles />} />
+      <Route path="/admin/articles/add" element={
+        <AdminRoute>
+          <AddArticle />
+        </AdminRoute>
+
+        } />
+      <Route path="/admin/articles/edit/:id" element={    
+        <AdminRoute>
+          <EditArticle />
+        </AdminRoute>} />
     </Routes>
   );
 }

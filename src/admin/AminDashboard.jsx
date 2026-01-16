@@ -9,7 +9,7 @@ import {
   Eye,
   Edit,
   Plus,
-  BarChart3
+  BarChart3,
 } from "lucide-react";
 import toast from "react-hot-toast";
 
@@ -21,7 +21,7 @@ const AdminDashboard = () => {
     totalUsers: 1234,
     totalProducts: 567,
     totalCategories: 12,
-    totalArticles: 89
+    totalArticles: 89,
   };
 
   /* ======================
@@ -54,7 +54,7 @@ const AdminDashboard = () => {
       icon: Users,
       color: "from-blue-600 to-cyan-600",
       stats: stats.totalUsers,
-      actions: ["View All", "Add User", "User Roles"]
+      actions: ["View All", "Add User"],
     },
     {
       id: "products",
@@ -63,7 +63,7 @@ const AdminDashboard = () => {
       icon: Package,
       color: "from-purple-600 to-pink-600",
       stats: stats.totalProducts,
-      actions: ["View All", "Add Product", "Bulk Import"]
+      actions: ["View All", "Add Product"],
     },
     {
       id: "categories",
@@ -72,7 +72,7 @@ const AdminDashboard = () => {
       icon: Layers,
       color: "from-green-600 to-emerald-600",
       stats: stats.totalCategories,
-      actions: ["View All", "Add Category", "Reorder"]
+      actions: ["View All", "Add Category"],
     },
     {
       id: "articles",
@@ -81,8 +81,8 @@ const AdminDashboard = () => {
       icon: FileText,
       color: "from-orange-600 to-red-600",
       stats: stats.totalArticles,
-      actions: ["View All", "Write Article", "Drafts"]
-    }
+      actions: ["View All", "Write Article"],
+    },
   ];
 
   return (
@@ -125,9 +125,7 @@ const AdminDashboard = () => {
           <h2 className="text-2xl font-bold text-white mb-2">
             Management Center
           </h2>
-          <p className="text-gray-400">
-            Quick access to manage your platform
-          </p>
+          <p className="text-gray-400">Quick access to manage your platform</p>
         </div>
 
         {/* ================= CARDS ================= */}
@@ -177,9 +175,16 @@ const AdminDashboard = () => {
                         <button
                           key={idx}
                           onClick={() => {
-                            if (isView) handleViewAll(card.id);
-                            else if (isAdd) handleAdd(card.id);
-                            else handleExtraAction(card.id, action);
+                            if (isView) {
+                              handleViewAll(card.id);
+                            } else if (
+                              isAdd ||
+                              action.toLowerCase().includes("write")
+                            ) {
+                              handleAdd(card.id);
+                            } else {
+                              handleExtraAction(card.id, action);
+                            }
                           }}
                           className="w-full flex items-center justify-between px-3 py-2
                                      bg-slate-800 hover:bg-slate-700 rounded-lg
@@ -206,8 +211,10 @@ const AdminDashboard = () => {
 
         {/* ================= QUICK ACTIONS ================= */}
         <div className="mt-12">
-          <div className="bg-gradient-to-br from-slate-800 to-slate-900 rounded-2xl
-                          border border-slate-700 shadow-xl p-6">
+          <div
+            className="bg-gradient-to-br from-slate-800 to-slate-900 rounded-2xl
+                          border border-slate-700 shadow-xl p-6"
+          >
             <h2 className="text-2xl font-bold text-white mb-6">
               Quick Actions
             </h2>
@@ -222,7 +229,9 @@ const AdminDashboard = () => {
                   <Plus className="w-5 h-5 text-indigo-400" />
                 </div>
                 <div>
-                  <p className="text-sm font-semibold text-white">New Product</p>
+                  <p className="text-sm font-semibold text-white">
+                    New Product
+                  </p>
                   <p className="text-xs text-gray-400">Add to catalog</p>
                 </div>
               </button>
@@ -236,21 +245,14 @@ const AdminDashboard = () => {
                   <FileText className="w-5 h-5 text-green-400" />
                 </div>
                 <div>
-                  <p className="text-sm font-semibold text-white">New Article</p>
+                  <p className="text-sm font-semibold text-white">
+                    New Article
+                  </p>
                   <p className="text-xs text-gray-400">Write blog post</p>
                 </div>
               </button>
 
-              <button className="flex items-center gap-3 p-4 bg-slate-800 hover:bg-slate-700
-                                 rounded-xl border border-slate-700 transition-all">
-                <div className="w-10 h-10 rounded-lg bg-purple-600/20 flex items-center justify-center">
-                  <BarChart3 className="w-5 h-5 text-purple-400" />
-                </div>
-                <div>
-                  <p className="text-sm font-semibold text-white">Reports</p>
-                  <p className="text-xs text-gray-400">View analytics</p>
-                </div>
-              </button>
+
 
               <button
                 onClick={() => handleViewAll("users")}
@@ -261,7 +263,9 @@ const AdminDashboard = () => {
                   <Users className="w-5 h-5 text-blue-400" />
                 </div>
                 <div>
-                  <p className="text-sm font-semibold text-white">User Activity</p>
+                  <p className="text-sm font-semibold text-white">
+                    User Activity
+                  </p>
                   <p className="text-xs text-gray-400">Monitor users</p>
                 </div>
               </button>
