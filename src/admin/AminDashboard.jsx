@@ -12,19 +12,34 @@ import {
   BarChart3,
 } from "lucide-react";
 import toast from "react-hot-toast";
+import {useEffect, useState} from "react";
+import axios from "../axios.js";
 
 const AdminDashboard = () => {
   const navigate = useNavigate();
 
-  // Mock stats (replace with API later)
-  const stats = {
-    totalUsers: 1234,
-    totalProducts: 567,
-    totalCategories: 12,
-    totalArticles: 89,
-  };
+const [stats, setStats] = useState({
+  totalUsers: 0,
+  totalProducts: 0,
+  totalCategories: 0,
+  totalArticles: 0,
+})
 
-  /* ======================
+useEffect(()=>{
+  const fetchStats = async () =>{
+    try {
+      const {data} = await axios.get("/api/stats/admin");
+      setStats(data);
+    } catch (error) {
+      toast.error("Failed to load stats", error);
+
+    }
+  };
+  fetchStats();
+}, []);
+
+/*
+=====================
      NAVIGATION HANDLERS
   ====================== */
   const handleViewAll = (section) => {
