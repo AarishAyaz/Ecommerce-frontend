@@ -22,6 +22,7 @@ import CategoryProducts from "./admin/CategoryProducts";
 import AdminArticles from "./admin/AdminArticles";
 import AddArticle from "./admin/AddArticle";
 import EditArticle from "./admin/EditArticle";
+import ViewArticle from "./admin/ViewArticle";
 
 function App() {
   return (
@@ -114,6 +115,14 @@ function App() {
         <AdminRoute>
           <EditArticle />
         </AdminRoute>} />
+      <Route 
+      path="/admin/articles/view/:id"
+      element={
+        <AdminRoute>
+          <ViewArticle />
+        </AdminRoute>
+      }
+        />
     </Routes>
   );
 }
