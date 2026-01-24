@@ -28,6 +28,7 @@ const EditProduct = () => {
     category: "",
     brand: "",
     image: "",
+    newImage: null, // for new image file
     countInStock: ""
   });
 
@@ -70,28 +71,39 @@ const EditProduct = () => {
     });
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+const handleSubmit = async (e) => {
+  e.preventDefault();
+  try {
+    setSubmitting(true);
 
-    if (!formData.name || !formData.price) {
-      return toast.error("Name and price are required");
+    const data = new FormData();
+    data.append("name", formData.name);
+    data.append("price", formData.price);
+    data.append("description", formData.description);
+    data.append("category", formData.category);
+    data.append("brand", formData.brand);
+    data.append("countInStock", formData.countInStock);
+
+    // Append only if a new image is selected
+    if (formData.newImage) {
+      data.append("image", formData.newImage);
     }
 
-    try {
-      setSubmitting(true);
-      await axios.put(`/api/products/${id}`, {
-        ...formData,
-        price: Number(formData.price),
-        countInStock: Number(formData.countInStock)
-      });
-      toast.success("Product updated successfully");
-      navigate("/admin/products");
-    } catch (error) {
-      toast.error(error.response?.data?.message || "Failed to update product");
-    } finally {
-      setSubmitting(false);
-    }
-  };
+    const res = await axios.put(`/api/products/${id}`, data, {
+      headers: { "Content-Type": "multipart/form-data" },
+    });
+
+    toast.success("Product updated successfully");
+    navigate("/admin/products");
+  } catch (error) {
+    console.error(error);
+    toast.error(error.response?.data?.message || "Failed to update product");
+  } finally {
+    setSubmitting(false);
+  }
+};
+
+
 
   const handleBack = () => {
     navigate("/admin/products");
@@ -351,38 +363,50 @@ const EditProduct = () => {
                 </div>
 
                 {/* Image */}
-                <div>
-                  <div className="flex items-center gap-2 mb-4">
-                    <div className="w-8 h-8 rounded-lg bg-blue-600/20 flex items-center justify-center">
-                      <ImageIcon className="w-4 h-4 text-blue-400" />
-                    </div>
-                    <h3 className="text-lg sm:text-xl font-bold text-white">
-                      Product Image
-                    </h3>
-                  </div>
+{/* Image Upload */}
+<div>
+  <label className="block text-sm font-semibold text-gray-200 mb-2">
+    Product Image
+  </label>
 
-                  <div>
-                    <label className="block text-sm font-semibold text-gray-200 mb-2">
-                      Image URL
-                    </label>
-                    <div className="relative">
-                      <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                        <ImageIcon className="h-5 w-5 text-gray-400" />
-                      </div>
-                      <input
-                        type="url"
-                        value={formData.image}
-                        onChange={(e) => handleChange("image", e.target.value)}
-                        placeholder="https://example.com/image.jpg"
-                        className="w-full pl-12 pr-4 py-3 sm:py-3.5 text-sm sm:text-base 
-                                 bg-slate-700 border-2 border-slate-600 rounded-xl
-                                 text-white placeholder:text-gray-400
-                                 focus:outline-none focus:border-purple-500 focus:ring-4 focus:ring-purple-500/20 
-                                 transition-all duration-200"
-                      />
-                    </div>
-                  </div>
-                </div>
+  <div className="relative">
+    <input
+      type="file"
+      accept="image/*"
+      onChange={(e) => {
+        handleChange("newImage", e.target.files[0]); // store new file separately
+      }}
+      className="w-full pl-4 pr-4 py-2 text-sm sm:text-base 
+                 bg-slate-700 border-2 border-slate-600 rounded-xl
+                 text-white placeholder:text-gray-400"
+    />
+  </div>
+
+  {/* Show current image if exists and no new image is selected */}
+  {formData.image && !formData.newImage && (
+    <div className="mt-4">
+      <p className="text-gray-400 text-sm mb-2">Current Image:</p>
+      <img
+        src={`http://localhost:5000/uploads/${formData.image}`}
+        alt="Current"
+        className="w-40 h-auto rounded-lg border border-slate-600"
+      />
+    </div>
+  )}
+
+  {/* Show preview if a new image is selected */}
+  {formData.newImage && (
+    <div className="mt-4">
+      <p className="text-gray-400 text-sm mb-2">New Image Preview:</p>
+      <img
+        src={URL.createObjectURL(formData.newImage)}
+        alt="Preview"
+        className="w-40 h-auto rounded-lg border border-slate-600"
+      />
+    </div>
+  )}
+</div>
+
 
                 {/* Action Buttons */}
                 <div className="flex flex-col sm:flex-row gap-3 pt-4">

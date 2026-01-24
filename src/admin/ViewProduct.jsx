@@ -2,16 +2,16 @@ import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import axios from "../axios";
 import toast from "react-hot-toast";
-import { 
-  ArrowLeft, 
+import {
+  ArrowLeft,
   Edit,
-  Package, 
-  DollarSign, 
+  Package,
+  DollarSign,
   Layers,
   Tag,
   Box,
   ShoppingCart,
-  Image as ImageIcon
+  Image as ImageIcon,
 } from "lucide-react";
 
 const ViewProduct = () => {
@@ -77,7 +77,6 @@ const ViewProduct = () => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-black pt-20 pb-12 px-4">
       <div className="max-w-5xl mx-auto">
-        
         {/* Back Button */}
         <button
           onClick={handleBack}
@@ -85,23 +84,30 @@ const ViewProduct = () => {
                    mb-6 sm:mb-8 transition-colors"
         >
           <ArrowLeft className="w-5 h-5 group-hover:-translate-x-1 transition-transform" />
-          <span className="text-sm sm:text-base font-medium">Back to Products</span>
+          <span className="text-sm sm:text-base font-medium">
+            Back to Products
+          </span>
         </button>
 
         {/* Product View Card */}
-        <div className="bg-gradient-to-br from-slate-800 to-slate-900 rounded-3xl 
-                      border border-slate-700 shadow-2xl overflow-hidden">
-          
+        <div
+          className="bg-gradient-to-br from-slate-800 to-slate-900 rounded-3xl 
+                      border border-slate-700 shadow-2xl overflow-hidden"
+        >
           {/* Header Section */}
-          <div className="relative bg-gradient-to-r from-purple-600 via-pink-600 to-rose-600 
-                        px-6 sm:px-8 py-6 sm:py-8 overflow-hidden">
+          <div
+            className="relative bg-gradient-to-r from-purple-600 via-pink-600 to-rose-600 
+                        px-6 sm:px-8 py-6 sm:py-8 overflow-hidden"
+          >
             <div className="absolute top-0 right-0 w-32 h-32 bg-pink-500 rounded-full blur-3xl opacity-20"></div>
             <div className="absolute bottom-0 left-0 w-32 h-32 bg-purple-500 rounded-full blur-3xl opacity-20"></div>
-            
+
             <div className="relative z-10 flex items-center justify-between">
               <div className="flex items-center gap-4">
-                <div className="w-12 h-12 sm:w-16 sm:h-16 rounded-full bg-white/10 backdrop-blur-md 
-                              border-2 border-white/20 flex items-center justify-center shadow-xl">
+                <div
+                  className="w-12 h-12 sm:w-16 sm:h-16 rounded-full bg-white/10 backdrop-blur-md 
+                              border-2 border-white/20 flex items-center justify-center shadow-xl"
+                >
                   <Package className="w-6 h-6 sm:w-8 sm:h-8 text-white" />
                 </div>
                 <div>
@@ -130,7 +136,6 @@ const ViewProduct = () => {
           {/* Content Section */}
           <div className="p-6 sm:p-8">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-              
               {/* Left Column - Image */}
               <div>
                 <div className="flex items-center gap-2 mb-4">
@@ -143,15 +148,19 @@ const ViewProduct = () => {
                 </div>
 
                 {product.image ? (
-                  <div className="relative group rounded-2xl overflow-hidden border-2 border-slate-700 
-                                hover:border-purple-500/50 transition-all duration-300">
+                  <div
+                    className="relative group rounded-2xl overflow-hidden border-2 border-slate-700 
+                                hover:border-purple-500/50 transition-all duration-300"
+                  >
                     <img
-                      src={product.image}
+                      src={`http://localhost:5000${product.image.startsWith("/uploads/") ? product.image : `/uploads/${product.image}`}`}
                       alt={product.name}
                       className="w-full h-auto object-cover group-hover:scale-105 transition-transform duration-500"
                     />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent 
-                                  opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                    <div
+                      className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent 
+                                  opacity-0 group-hover:opacity-100 transition-opacity"
+                    ></div>
                   </div>
                 ) : (
                   <div className="flex items-center justify-center h-64 bg-slate-800 rounded-2xl border-2 border-slate-700">
@@ -165,7 +174,6 @@ const ViewProduct = () => {
 
               {/* Right Column - Details */}
               <div className="space-y-6">
-                
                 {/* Product Name */}
                 <div>
                   <h2 className="text-2xl sm:text-3xl font-bold text-white mb-2">
@@ -182,8 +190,10 @@ const ViewProduct = () => {
                 {/* Info Cards Grid */}
                 <div className="grid grid-cols-2 gap-4">
                   {/* Price Card */}
-                  <div className="bg-gradient-to-br from-green-600/10 to-emerald-600/10 
-                                border border-green-600/30 rounded-xl p-4">
+                  <div
+                    className="bg-gradient-to-br from-green-600/10 to-emerald-600/10 
+                                border border-green-600/30 rounded-xl p-4"
+                  >
                     <div className="flex items-center gap-2 mb-2">
                       <DollarSign className="w-5 h-5 text-green-400" />
                       <p className="text-sm text-gray-400">Price</p>
@@ -194,8 +204,10 @@ const ViewProduct = () => {
                   </div>
 
                   {/* Stock Card */}
-                  <div className="bg-gradient-to-br from-blue-600/10 to-indigo-600/10 
-                                border border-blue-600/30 rounded-xl p-4">
+                  <div
+                    className="bg-gradient-to-br from-blue-600/10 to-indigo-600/10 
+                                border border-blue-600/30 rounded-xl p-4"
+                  >
                     <div className="flex items-center gap-2 mb-2">
                       <Box className="w-5 h-5 text-blue-400" />
                       <p className="text-sm text-gray-400">In Stock</p>
@@ -209,8 +221,10 @@ const ViewProduct = () => {
                 {/* Category Badge */}
                 <div>
                   <p className="text-sm text-gray-400 mb-2">Category</p>
-                  <span className="inline-flex items-center gap-2 px-4 py-2 rounded-xl 
-                                 bg-purple-600/20 border border-purple-500/50 text-purple-300">
+                  <span
+                    className="inline-flex items-center gap-2 px-4 py-2 rounded-xl 
+                                 bg-purple-600/20 border border-purple-500/50 text-purple-300"
+                  >
                     <Layers className="w-4 h-4" />
                     <span className="font-semibold">
                       {product.category?.name || "Uncategorized"}
@@ -229,23 +243,29 @@ const ViewProduct = () => {
                 </div>
 
                 {/* Stock Status Indicator */}
-                <div className="flex items-center gap-3 p-4 rounded-xl border-2 
+                <div
+                  className="flex items-center gap-3 p-4 rounded-xl border-2 
                               {(product.countInStock || 0) > 0 
                                 ? 'bg-green-900/20 border-green-600/30' 
-                                : 'bg-red-900/20 border-red-600/30'}">
-                  <div className={`w-3 h-3 rounded-full ${
-                    (product.countInStock || 0) > 0 
-                      ? 'bg-green-400 animate-pulse' 
-                      : 'bg-red-400'
-                  }`}></div>
-                  <p className={`font-semibold ${
-                    (product.countInStock || 0) > 0 
-                      ? 'text-green-400' 
-                      : 'text-red-400'
-                  }`}>
-                    {(product.countInStock || 0) > 0 
-                      ? 'Available in Stock' 
-                      : 'Out of Stock'}
+                                : 'bg-red-900/20 border-red-600/30'}"
+                >
+                  <div
+                    className={`w-3 h-3 rounded-full ${
+                      (product.countInStock || 0) > 0
+                        ? "bg-green-400 animate-pulse"
+                        : "bg-red-400"
+                    }`}
+                  ></div>
+                  <p
+                    className={`font-semibold ${
+                      (product.countInStock || 0) > 0
+                        ? "text-green-400"
+                        : "text-red-400"
+                    }`}
+                  >
+                    {(product.countInStock || 0) > 0
+                      ? "Available in Stock"
+                      : "Out of Stock"}
                   </p>
                 </div>
               </div>

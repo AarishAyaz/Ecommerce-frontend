@@ -2,16 +2,16 @@ import { useState, useEffect } from "react";
 import axios from "../axios";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
-import { 
-  ArrowLeft, 
-  Save, 
-  Package, 
-  DollarSign, 
+import {
+  ArrowLeft,
+  Save,
+  Package,
+  DollarSign,
   Layers,
   Tag,
   FileText,
   Image as ImageIcon,
-  Box
+  Box,
 } from "lucide-react";
 
 const AddProduct = () => {
@@ -22,7 +22,7 @@ const AddProduct = () => {
     category: "",
     brand: "",
     image: "",
-    countInStock: ""
+    countInStock: "",
   });
   const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -34,30 +34,39 @@ const AddProduct = () => {
         const { data } = await axios.get("/api/categories");
         setCategories(data);
       } catch (error) {
-        toast.error("Failed to load categories",error);
+        toast.error("Failed to load categories", error);
       }
     };
     fetchCategories();
   }, []);
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setLoading(true);
+const handleSubmit = async (e) => {
+  e.preventDefault();
+  setLoading(true);
 
-    try {
-      await axios.post("/api/products", {
-        ...form,
-        price: Number(form.price),
-        countInStock: Number(form.countInStock)
-      });
-      toast.success("Product created successfully");
-      navigate("/admin/products");
-    } catch (error) {
-      toast.error(error.response?.data?.message || "Failed to create product");
-    } finally {
-      setLoading(false);
-    }
-  };
+  try {
+    const formData = new FormData();
+    formData.append("name", form.name);
+    formData.append("price", form.price); // FIXED
+    formData.append("description", form.description);
+    formData.append("category", form.category);
+    formData.append("brand", form.brand);
+    formData.append("countInStock", form.countInStock);
+    formData.append("image", form.image); // File object
+
+    await axios.post("/api/products", formData);
+
+    toast.success("Product created");
+    navigate("/admin/products");
+  } catch (error) {
+    console.error(error);
+    toast.error(error.response?.data?.message || "Failed to create product");
+  } finally {
+    setLoading(false);
+  }
+};
+
+
 
   const handleBack = () => {
     navigate("/admin/products");
@@ -70,7 +79,6 @@ const AddProduct = () => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-black pt-20 pb-12 px-4">
       <div className="max-w-4xl mx-auto">
-        
         {/* Back Button */}
         <button
           onClick={handleBack}
@@ -78,25 +86,32 @@ const AddProduct = () => {
                    mb-6 sm:mb-8 transition-colors"
         >
           <ArrowLeft className="w-5 h-5 group-hover:-translate-x-1 transition-transform" />
-          <span className="text-sm sm:text-base font-medium">Back to Products</span>
+          <span className="text-sm sm:text-base font-medium">
+            Back to Products
+          </span>
         </button>
 
         {/* Form Card */}
-        <div className="bg-gradient-to-br from-slate-800 to-slate-900 rounded-3xl 
-                      border border-slate-700 shadow-2xl overflow-hidden">
-          
+        <div
+          className="bg-gradient-to-br from-slate-800 to-slate-900 rounded-3xl 
+                      border border-slate-700 shadow-2xl overflow-hidden"
+        >
           {/* Header Section */}
-          <div className="relative bg-gradient-to-r from-purple-600 via-pink-600 to-rose-600 
-                        px-6 sm:px-8 py-8 sm:py-10 overflow-hidden">
+          <div
+            className="relative bg-gradient-to-r from-purple-600 via-pink-600 to-rose-600 
+                        px-6 sm:px-8 py-8 sm:py-10 overflow-hidden"
+          >
             <div className="absolute top-0 right-0 w-32 h-32 bg-pink-500 rounded-full blur-3xl opacity-20"></div>
             <div className="absolute bottom-0 left-0 w-32 h-32 bg-purple-500 rounded-full blur-3xl opacity-20"></div>
-            
+
             <div className="relative z-10 flex items-center gap-4 sm:gap-6">
-              <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-full bg-white/10 backdrop-blur-md 
-                            border-2 border-white/20 flex items-center justify-center shadow-xl">
+              <div
+                className="w-16 h-16 sm:w-20 sm:h-20 rounded-full bg-white/10 backdrop-blur-md 
+                            border-2 border-white/20 flex items-center justify-center shadow-xl"
+              >
                 <Package className="w-8 h-8 sm:w-10 sm:h-10 text-white" />
               </div>
-              
+
               <div>
                 <h1 className="text-2xl sm:text-3xl font-bold text-white mb-1">
                   Add New Product
@@ -112,7 +127,6 @@ const AddProduct = () => {
           <form onSubmit={handleSubmit}>
             <div className="p-6 sm:p-8">
               <div className="space-y-6">
-                
                 {/* Basic Information */}
                 <div>
                   <div className="flex items-center gap-2 mb-4">
@@ -161,7 +175,9 @@ const AddProduct = () => {
                         <input
                           type="text"
                           value={form.brand}
-                          onChange={(e) => handleChange("brand", e.target.value)}
+                          onChange={(e) =>
+                            handleChange("brand", e.target.value)
+                          }
                           placeholder="Enter brand name"
                           className="w-full pl-12 pr-4 py-3 sm:py-3.5 text-sm sm:text-base 
                                    bg-slate-700 border-2 border-slate-600 rounded-xl
@@ -183,7 +199,9 @@ const AddProduct = () => {
                         </div>
                         <select
                           value={form.category}
-                          onChange={(e) => handleChange("category", e.target.value)}
+                          onChange={(e) =>
+                            handleChange("category", e.target.value)
+                          }
                           required
                           className="w-full pl-12 pr-4 py-3 sm:py-3.5 text-sm sm:text-base 
                                    bg-slate-700 border-2 border-slate-600 rounded-xl
@@ -208,7 +226,9 @@ const AddProduct = () => {
                       </label>
                       <textarea
                         value={form.description}
-                        onChange={(e) => handleChange("description", e.target.value)}
+                        onChange={(e) =>
+                          handleChange("description", e.target.value)
+                        }
                         placeholder="Enter product description"
                         rows="4"
                         className="w-full px-4 py-3 text-sm sm:text-base 
@@ -259,7 +279,9 @@ const AddProduct = () => {
                           step="0.01"
                           min="0"
                           value={form.price}
-                          onChange={(e) => handleChange("price", e.target.value)}
+                          onChange={(e) =>
+                            handleChange("price", e.target.value)
+                          }
                           placeholder="0.00"
                           required
                           className="w-full pl-12 pr-4 py-3 sm:py-3.5 text-sm sm:text-base 
@@ -284,7 +306,9 @@ const AddProduct = () => {
                           type="number"
                           min="0"
                           value={form.countInStock}
-                          onChange={(e) => handleChange("countInStock", e.target.value)}
+                          onChange={(e) =>
+                            handleChange("countInStock", e.target.value)
+                          }
                           placeholder="0"
                           className="w-full pl-12 pr-4 py-3 sm:py-3.5 text-sm sm:text-base 
                                    bg-slate-700 border-2 border-slate-600 rounded-xl
@@ -329,10 +353,11 @@ const AddProduct = () => {
                         <ImageIcon className="h-5 w-5 text-gray-400" />
                       </div>
                       <input
-                        type="url"
-                        value={form.image}
-                        onChange={(e) => handleChange("image", e.target.value)}
-                        placeholder="https://example.com/image.jpg"
+                        type="file"
+                        accept="image/*"
+                        onChange={(e) =>
+                          handleChange("image", e.target.files[0])
+                        }
                         className="w-full pl-12 pr-4 py-3 sm:py-3.5 text-sm sm:text-base 
                                  bg-slate-700 border-2 border-slate-600 rounded-xl
                                  text-white placeholder:text-gray-400
