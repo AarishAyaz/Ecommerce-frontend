@@ -23,7 +23,10 @@ import AdminArticles from "./admin/AdminArticles";
 import AddArticle from "./admin/AddArticle";
 import EditArticle from "./admin/EditArticle";
 import ViewArticle from "./admin/ViewArticle";
-
+import ProductsPage from "./Pages/ProductsPage";
+import ProductDetail from "./Pages/ProductDetail";
+import ViewAllArticlesPage from "./Pages/ViewAllArticles";
+import ArticleDetailPage from "./Pages/ArticleDetail";
 function App() {
   return (
     <Routes>
@@ -40,7 +43,10 @@ function App() {
           </PrivateRoute>
         }
       />
-
+      <Route path="/products" element={<ProductsPage />} />
+      <Route path="/product/:id" element={<ProductDetail />} />
+      <Route path="/articles" element={<ViewAllArticlesPage />} />
+      <Route path="/articles/:id" element={<ArticleDetailPage />} />
       <Route
         path="/profile"
         element={

@@ -1,12 +1,14 @@
 import { useState } from "react";
 import { Star, ShoppingCart, Eye, Heart } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 const ProductCard = ({ id, image, title, price, rating = 5, onAddToCart }) => {
   const [isHovered, setIsHovered] = useState(false);
   const [isFavorite, setIsFavorite] = useState(false);
-
+  const Navigate = useNavigate();
   const handleNavigate = () => {
     console.log(`Navigate to product ${id}`);
+    Navigate(`/product/${id}`);
   };
 
   const handleAddToCart = (e) => {

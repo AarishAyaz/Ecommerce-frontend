@@ -102,9 +102,6 @@ const handleSubmit = async (e) => {
     setSubmitting(false);
   }
 };
-
-
-
   const handleBack = () => {
     navigate("/admin/products");
   };
