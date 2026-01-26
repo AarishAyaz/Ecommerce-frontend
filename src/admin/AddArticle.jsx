@@ -2,14 +2,14 @@ import { useState } from "react";
 import { createArticle } from "../api/articleApi";
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
-import { 
-  ArrowLeft, 
-  Save, 
-  FileText, 
+import {
+  ArrowLeft,
+  Save,
+  FileText,
   User,
   Type,
   Image as ImageIcon,
-  Tag
+  Tag,
 } from "lucide-react";
 
 const AddArticle = () => {
@@ -18,7 +18,7 @@ const AddArticle = () => {
     content: "",
     author: "",
     category: "",
-    image: ""
+    image: null,
   });
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
@@ -26,14 +26,19 @@ const AddArticle = () => {
   const submitHandler = async (e) => {
     e.preventDefault();
 
-    if (!form.title.trim() || !form.content.trim()) {
-      return toast.error("Title and content are required");
-    }
+   const data= new FormData();
+   data.append("title", form.title);
+   data.append("content", form.content);
+   data.append("author", form.author);
+   data.append("category", form.category);
+   if (form.image) {
+    data.append("image", form.image); // ✅ only append if file exists
+  }
 
     setLoading(true);
 
     try {
-      await createArticle(form);
+      await createArticle(data);
       toast.success("Article created successfully");
       navigate("/admin/articles");
     } catch (error) {
@@ -54,7 +59,6 @@ const AddArticle = () => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-black pt-20 pb-12 px-4">
       <div className="max-w-4xl mx-auto">
-        
         {/* Back Button */}
         <button
           onClick={handleBack}
@@ -62,25 +66,32 @@ const AddArticle = () => {
                    mb-6 sm:mb-8 transition-colors"
         >
           <ArrowLeft className="w-5 h-5 group-hover:-translate-x-1 transition-transform" />
-          <span className="text-sm sm:text-base font-medium">Back to Articles</span>
+          <span className="text-sm sm:text-base font-medium">
+            Back to Articles
+          </span>
         </button>
 
         {/* Form Card */}
-        <div className="bg-gradient-to-br from-slate-800 to-slate-900 rounded-3xl 
-                      border border-slate-700 shadow-2xl overflow-hidden">
-          
+        <div
+          className="bg-gradient-to-br from-slate-800 to-slate-900 rounded-3xl 
+                      border border-slate-700 shadow-2xl overflow-hidden"
+        >
           {/* Header Section */}
-          <div className="relative bg-gradient-to-r from-orange-600 via-red-600 to-rose-600 
-                        px-6 sm:px-8 py-8 sm:py-10 overflow-hidden">
+          <div
+            className="relative bg-gradient-to-r from-orange-600 via-red-600 to-rose-600 
+                        px-6 sm:px-8 py-8 sm:py-10 overflow-hidden"
+          >
             <div className="absolute top-0 right-0 w-32 h-32 bg-red-500 rounded-full blur-3xl opacity-20"></div>
             <div className="absolute bottom-0 left-0 w-32 h-32 bg-orange-500 rounded-full blur-3xl opacity-20"></div>
-            
+
             <div className="relative z-10 flex items-center gap-4 sm:gap-6">
-              <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-full bg-white/10 backdrop-blur-md 
-                            border-2 border-white/20 flex items-center justify-center shadow-xl">
+              <div
+                className="w-16 h-16 sm:w-20 sm:h-20 rounded-full bg-white/10 backdrop-blur-md 
+                            border-2 border-white/20 flex items-center justify-center shadow-xl"
+              >
                 <FileText className="w-8 h-8 sm:w-10 sm:h-10 text-white" />
               </div>
-              
+
               <div>
                 <h1 className="text-2xl sm:text-3xl font-bold text-white mb-1">
                   Write New Article
@@ -96,7 +107,6 @@ const AddArticle = () => {
           <form onSubmit={submitHandler}>
             <div className="p-6 sm:p-8">
               <div className="space-y-6">
-                
                 {/* Article Details */}
                 <div>
                   <div className="flex items-center gap-2 mb-4">
@@ -121,7 +131,9 @@ const AddArticle = () => {
                         <input
                           type="text"
                           value={form.title}
-                          onChange={(e) => handleChange("title", e.target.value)}
+                          onChange={(e) =>
+                            handleChange("title", e.target.value)
+                          }
                           placeholder="Enter article title"
                           required
                           className="w-full pl-12 pr-4 py-3 sm:py-3.5 text-sm sm:text-base 
@@ -147,7 +159,9 @@ const AddArticle = () => {
                           <input
                             type="text"
                             value={form.author}
-                            onChange={(e) => handleChange("author", e.target.value)}
+                            onChange={(e) =>
+                              handleChange("author", e.target.value)
+                            }
                             placeholder="Author name"
                             className="w-full pl-12 pr-4 py-3 sm:py-3.5 text-sm sm:text-base 
                                      bg-slate-700 border-2 border-slate-600 rounded-xl
@@ -170,7 +184,9 @@ const AddArticle = () => {
                           <input
                             type="text"
                             value={form.category}
-                            onChange={(e) => handleChange("category", e.target.value)}
+                            onChange={(e) =>
+                              handleChange("category", e.target.value)
+                            }
                             placeholder="e.g. Technology, Business"
                             className="w-full pl-12 pr-4 py-3 sm:py-3.5 text-sm sm:text-base 
                                      bg-slate-700 border-2 border-slate-600 rounded-xl
@@ -189,7 +205,9 @@ const AddArticle = () => {
                       </label>
                       <textarea
                         value={form.content}
-                        onChange={(e) => handleChange("content", e.target.value)}
+                        onChange={(e) =>
+                          handleChange("content", e.target.value)
+                        }
                         placeholder="Write your article content here..."
                         rows="10"
                         required
@@ -200,7 +218,8 @@ const AddArticle = () => {
                                  transition-all duration-200"
                       />
                       <p className="mt-2 text-xs text-gray-500">
-                        Write the full content of your article. Supports markdown formatting.
+                        Write the full content of your article. Supports
+                        markdown formatting.
                       </p>
                     </div>
                   </div>
@@ -238,9 +257,11 @@ const AddArticle = () => {
                         <ImageIcon className="h-5 w-5 text-gray-400" />
                       </div>
                       <input
-                        type="url"
-                        value={form.image}
-                        onChange={(e) => handleChange("image", e.target.value)}
+                        type="file"
+                        accept="image/*"
+                        onChange={(e) =>
+                          handleChange("image", e.target.files[0])
+                        }
                         placeholder="https://example.com/image.jpg"
                         className="w-full pl-12 pr-4 py-3 sm:py-3.5 text-sm sm:text-base 
                                  bg-slate-700 border-2 border-slate-600 rounded-xl

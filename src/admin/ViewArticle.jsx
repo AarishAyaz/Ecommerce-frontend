@@ -30,7 +30,6 @@ const ViewArticle = () => {
   return (
     <div className="min-h-screen bg-slate-900 p-8 text-white">
       <div className="max-w-4xl mx-auto bg-slate-800 rounded-xl p-6 border border-slate-700">
-
         {/* Header */}
         <div className="flex items-center justify-between mb-6">
           <button
@@ -51,44 +50,30 @@ const ViewArticle = () => {
         </div>
 
         {/* Title */}
-        <h1 className="text-3xl font-bold mb-4">
-          {article.title}
-        </h1>
+        <h1 className="text-3xl font-bold mb-4">{article.title}</h1>
 
         {/* Meta */}
         <div className="flex gap-6 text-sm text-gray-400 mb-6">
           <p>
-            Author:{" "}
-            <span className="text-white">
-              {article?.author}
-            </span>
+            Author: <span className="text-white">{article?.author}</span>
           </p>
           <p>
-            Category:{" "}
-            <span className="text-white">
-              {article?.category}
-            </span>
+            Category: <span className="text-white">{article?.category}</span>
           </p>
-          <p>
-            Created:{" "}
-            {new Date(article.createdAt).toLocaleDateString()}
-          </p>
+          <p>Created: {new Date(article.createdAt).toLocaleDateString()}</p>
         </div>
 
         {/* Image */}
         {article.image && (
           <img
-            src={article.image}
+            src={`http://localhost:5000${article.image.startsWith("/uploads/") ? article.image : `/uploads/${article.image}`}`}
             alt={article.title}
             className="w-full h-80 object-cover rounded-lg mb-6"
           />
         )}
 
         {/* Content */}
-        <div className="prose prose-invert max-w-none">
-          {article.content}
-        </div>
-
+        <div className="prose prose-invert max-w-none">{article.content}</div>
       </div>
     </div>
   );
