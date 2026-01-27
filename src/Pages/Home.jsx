@@ -11,13 +11,11 @@ const Home = () => {
   return (
     <section id='home'>
 <div className="bg-darkgray">
-      <Navbar />
       <HeroSection />
       <CategoriesSection />
       <ProductsSection />
       <ArticlesSection />
       <ContactUs />
-      <Footer/>
     </div>
     
     </section>

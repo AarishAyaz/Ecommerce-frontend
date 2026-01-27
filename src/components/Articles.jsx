@@ -77,11 +77,11 @@ const ArticlesSection = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5 md:gap-6 lg:gap-8">
           {articles.map((article) => (
             <ArticleCard
-              key={article.id}
+              key={article._id}
               title={article.title}
               description={article.content.substring(0, 150) + "..."}
               image={`http://localhost:5000${article.image}`}
-              onReadMore={() => handleReadMore(article.id)}
+              onReadMore={() => handleReadMore(article._id)}
             />
           ))}
         </div>

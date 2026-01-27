@@ -27,8 +27,15 @@ import ProductsPage from "./Pages/ProductsPage";
 import ProductDetail from "./Pages/ProductDetail";
 import ViewAllArticlesPage from "./Pages/ViewAllArticles";
 import ArticleDetailPage from "./Pages/ArticleDetail";
+import Layout from "./components/Layout";
+import CategoriesPage from "./Pages/CategoriesPage";
+import CategoryProductsPage from "./Pages/CategoryProductsPage";
+import ScrollToTop from "./components/ScrollToTop";
+
 function App() {
   return (
+    <>
+    <ScrollToTop />
     <Routes>
       {/* Public routes */}
       <Route path="/login" element={<Login />} />
@@ -39,19 +46,51 @@ function App() {
         path="/"
         element={
           <PrivateRoute>
-            <Home />
+            <Layout>
+              <Home />
+            </Layout>
           </PrivateRoute>
         }
       />
-      <Route path="/products" element={<ProductsPage />} />
-      <Route path="/product/:id" element={<ProductDetail />} />
-      <Route path="/articles" element={<ViewAllArticlesPage />} />
-      <Route path="/articles/:id" element={<ArticleDetailPage />} />
+      <Route
+        path="/products"
+        element={
+          <Layout>
+            <ProductsPage />
+          </Layout>
+        }
+      />
+      <Route
+        path="/product/:id"
+        element={
+          <Layout>
+            <ProductDetail />
+          </Layout>
+        }
+      />
+      <Route
+        path="/articles"
+        element={
+          <Layout>
+            <ViewAllArticlesPage />
+          </Layout>
+        }
+      />
+      <Route
+        path="/articles/:id"
+        element={
+          <Layout>
+            <ArticleDetailPage />
+          </Layout>
+        }
+      />
       <Route
         path="/profile"
         element={
           <PrivateRoute>
-            <Profile />
+            <Layout>
+              <Profile />
+            </Layout>
           </PrivateRoute>
         }
       />
@@ -104,6 +143,23 @@ function App() {
         path="/admin/categories/:id/products"
         element={<CategoryProducts />}
       />
+      <Route
+        path="/categories"
+        element={
+          <Layout>
+            <CategoriesPage />
+          </Layout>
+        }
+      />
+
+      <Route
+        path="/categories/:id"
+        element={
+          <Layout>
+            <CategoryProductsPage />
+          </Layout>
+        }
+      />
 
       <Route path="/admin/products" element={<AdminProducts />} />
       <Route path="/admin/products/add" element={<AddProduct />} />
@@ -111,25 +167,32 @@ function App() {
       <Route path="/admin/products/edit/:id" element={<EditProduct />} />
 
       <Route path="/admin/articles" element={<AdminArticles />} />
-      <Route path="/admin/articles/add" element={
-        <AdminRoute>
-          <AddArticle />
-        </AdminRoute>
-
-        } />
-      <Route path="/admin/articles/edit/:id" element={    
-        <AdminRoute>
-          <EditArticle />
-        </AdminRoute>} />
-      <Route 
-      path="/admin/articles/view/:id"
-      element={
-        <AdminRoute>
-          <ViewArticle />
-        </AdminRoute>
-      }
-        />
+      <Route
+        path="/admin/articles/add"
+        element={
+          <AdminRoute>
+            <AddArticle />
+          </AdminRoute>
+        }
+      />
+      <Route
+        path="/admin/articles/edit/:id"
+        element={
+          <AdminRoute>
+            <EditArticle />
+          </AdminRoute>
+        }
+      />
+      <Route
+        path="/admin/articles/view/:id"
+        element={
+          <AdminRoute>
+            <ViewArticle />
+          </AdminRoute>
+        }
+      />
     </Routes>
+    </>
   );
 }
 
