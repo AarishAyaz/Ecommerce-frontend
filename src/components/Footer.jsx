@@ -254,7 +254,7 @@ const Footer = () => {
           {/* Made with Love */}
           <div className="mt-4 pt-4 border-t border-slate-800 text-center">
             <p className="text-xs text-gray-500">
-              Made with <span className="text-red-500">❤</span> by the ShopHub Team | Powered by Innovation
+              Made by Aarish Ayaz!
             </p>
           </div>
         </div>
