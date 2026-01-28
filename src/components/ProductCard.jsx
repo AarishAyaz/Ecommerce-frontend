@@ -1,19 +1,17 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { Star, ShoppingCart, Eye, Heart } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import CartContext from "../context/CartContext";
+import { AuthContext } from "../context/AuthContext";
+import toast from "react-hot-toast";
 
-const ProductCard = ({ id, image, title, price, rating = 5, onAddToCart }) => {
+const ProductCard = ({ id, image, title, price, rating = 5}) => {
   const [isHovered, setIsHovered] = useState(false);
   const [isFavorite, setIsFavorite] = useState(false);
   const Navigate = useNavigate();
   const handleNavigate = () => {
     console.log(`Navigate to product ${id}`);
     Navigate(`/product/${id}`);
-  };
-
-  const handleAddToCart = (e) => {
-    e.stopPropagation();
-    onAddToCart?.();
   };
 
   const handleQuickView = (e) => {
@@ -25,6 +23,8 @@ const ProductCard = ({ id, image, title, price, rating = 5, onAddToCart }) => {
     e.stopPropagation();
     setIsFavorite((prev) => !prev);
   };
+  const { addToCart } = useContext(CartContext);
+  const { user } = useContext(AuthContext);
 
   return (
     <div
@@ -41,8 +41,10 @@ const ProductCard = ({ id, image, title, price, rating = 5, onAddToCart }) => {
                overflow-hidden flex flex-col"
     >
       {/* Image Container */}
-      <div className="relative w-full h-[200px] sm:h-[220px] md:h-[240px] lg:h-[260px] xl:h-[280px] 
-                    bg-slate-900 overflow-hidden">
+      <div
+        className="relative w-full h-[200px] sm:h-[220px] md:h-[240px] lg:h-[260px] xl:h-[280px] 
+                    bg-slate-900 overflow-hidden"
+      >
         <img
           src={image}
           alt={title}
@@ -56,13 +58,17 @@ const ProductCard = ({ id, image, title, price, rating = 5, onAddToCart }) => {
         />
 
         {/* Gradient Overlay */}
-        <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent 
-                      opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+        <div
+          className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent 
+                      opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+        />
 
         {/* Hot Deal Badge */}
         <div className="absolute top-3 left-3">
-          <div className="bg-gradient-to-r from-red-600 to-orange-600 
-                        px-2.5 py-1 sm:px-3 sm:py-1.5 rounded-full">
+          <div
+            className="bg-gradient-to-r from-red-600 to-orange-600 
+                        px-2.5 py-1 sm:px-3 sm:py-1.5 rounded-full"
+          >
             <span className="text-xs sm:text-sm font-bold text-white">Hot</span>
           </div>
         </div>
@@ -98,8 +104,10 @@ const ProductCard = ({ id, image, title, price, rating = 5, onAddToCart }) => {
                      hover:bg-indigo-500 hover:border-indigo-500
                      transition-all duration-300 group/eye"
           >
-            <Eye className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-gray-300 
-                         group-hover/eye:text-white transition-colors" />
+            <Eye
+              className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-gray-300 
+                         group-hover/eye:text-white transition-colors"
+            />
           </button>
         </div>
 
@@ -110,7 +118,9 @@ const ProductCard = ({ id, image, title, price, rating = 5, onAddToCart }) => {
                     px-2.5 py-1 sm:px-3 sm:py-1.5 rounded-full
                     border border-slate-700
                     transition-all duration-300 ${
-                      isHovered ? "opacity-100 translate-y-0" : "opacity-0 translate-y-3"
+                      isHovered
+                        ? "opacity-100 translate-y-0"
+                        : "opacity-0 translate-y-3"
                     }`}
         >
           <Star className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-yellow-400 fill-yellow-400" />
@@ -123,9 +133,11 @@ const ProductCard = ({ id, image, title, price, rating = 5, onAddToCart }) => {
       {/* Content Section */}
       <div className="p-3.5 sm:p-4 md:p-5 flex flex-col flex-grow">
         {/* Title */}
-        <h3 className="text-sm sm:text-base md:text-lg font-bold text-white 
+        <h3
+          className="text-sm sm:text-base md:text-lg font-bold text-white 
                      leading-snug line-clamp-2 h-[40px] sm:h-[44px] md:h-[48px]
-                     group-hover:text-indigo-300 transition-colors duration-300">
+                     group-hover:text-indigo-300 transition-colors duration-300"
+        >
           {title}
         </h3>
 
@@ -146,9 +158,11 @@ const ProductCard = ({ id, image, title, price, rating = 5, onAddToCart }) => {
 
         {/* Price Section */}
         <div className="mt-2.5 sm:mt-3 flex items-baseline gap-2">
-          <p className="text-lg sm:text-xl md:text-2xl font-bold 
+          <p
+            className="text-lg sm:text-xl md:text-2xl font-bold 
                       bg-gradient-to-r from-indigo-400 to-purple-400 
-                      bg-clip-text text-transparent">
+                      bg-clip-text text-transparent"
+          >
             ${price}
           </p>
           <p className="text-xs sm:text-sm text-gray-500 line-through">
@@ -158,15 +172,21 @@ const ProductCard = ({ id, image, title, price, rating = 5, onAddToCart }) => {
 
         {/* Discount Badge */}
         <div className="mt-2">
-          <span className="inline-block text-xs font-semibold text-green-400 
-                         bg-green-500/10 px-2 py-0.5 rounded-full">
+          <span
+            className="inline-block text-xs font-semibold text-green-400 
+                         bg-green-500/10 px-2 py-0.5 rounded-full"
+          >
             Save {Math.round(((price * 1.3 - price) / (price * 1.3)) * 100)}%
           </span>
         </div>
 
         {/* Add to Cart Button */}
         <button
-          onClick={handleAddToCart}
+          onClick={() => {
+            if (!user) return Navigate("/login");
+            addToCart(id, 1);
+            toast.success("Added to cart!");
+          }}
           className="mt-auto w-full 
                    py-2.5 sm:py-3 md:py-3.5 rounded-lg sm:rounded-xl
                    bg-gradient-to-r from-indigo-600 to-purple-600

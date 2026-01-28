@@ -292,7 +292,7 @@ const ViewAllArticlesPage = () => {
                   key={article._id || article.id}
                   title={article.title}
                   description={article.content?.substring(0, 150) + "..." || "No description available"}
-                  image={article.image ? `${BASE_URL}${article.image}` : ""}
+                  image={`${BASE_URL}${article.image}`}
                   onReadMore={() => navigate(`/articles/${article._id || article.id}`)}
                 />
               ))}

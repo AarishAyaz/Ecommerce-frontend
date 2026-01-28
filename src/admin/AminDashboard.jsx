@@ -111,7 +111,7 @@ const AdminDashboard = () => {
               </div>
               <div>
                 <h1 className="text-2xl font-bold text-white">
-                  Admin Dashboard
+                   Shop Hub Admin Dashboard
                 </h1>
                 <p className="text-sm text-gray-400">
                   Manage your e-commerce platform

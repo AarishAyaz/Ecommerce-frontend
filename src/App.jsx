@@ -31,6 +31,8 @@ import Layout from "./components/Layout";
 import CategoriesPage from "./Pages/CategoriesPage";
 import CategoryProductsPage from "./Pages/CategoryProductsPage";
 import ScrollToTop from "./components/ScrollToTop";
+import CartPage from "./Pages/CartPage";
+import CheckoutPage from "./Pages/CheckoutPage";
 
 function App() {
   return (
@@ -189,6 +191,27 @@ function App() {
           <AdminRoute>
             <ViewArticle />
           </AdminRoute>
+        }
+      />
+
+      <Route
+        path="/cart"
+        element={
+          <PrivateRoute>
+            <Layout>
+              <CartPage />
+            </Layout>
+          </PrivateRoute>
+        }
+      />
+      <Route
+        path="/checkout"
+        element={
+          <PrivateRoute>
+            <Layout>
+              <CheckoutPage />
+            </Layout>
+          </PrivateRoute>
         }
       />
     </Routes>

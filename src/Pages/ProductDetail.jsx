@@ -1,5 +1,8 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import { useParams, useNavigate } from "react-router-dom";
+import CartContext from "../context/CartContext";
+import { AuthContext } from "../context/AuthContext";
+import toast from "react-hot-toast";
 import axios from "../axios";
 import { 
   Home, 
@@ -28,6 +31,8 @@ const ProductDetail = () => {
   const [quantity, setQuantity] = useState(1);
   const [selectedImage, setSelectedImage] = useState(null);
   const [isFavorite, setIsFavorite] = useState(false);
+  const { addToCart } = useContext(CartContext);
+  const { user } = useContext(AuthContext);
 
   useEffect(() => {
     const fetchProduct = async () => {
@@ -48,9 +53,19 @@ const ProductDetail = () => {
     fetchProduct();
   }, [id]);
 
-  const handleAddToCart = () => {
-    console.log(`Add ${quantity} x ${product.name} to cart`);
-    // Add your cart logic here
+  const handleAddToCart = async () => {
+    // if(!auth.user) {
+    //   toast.error("Please login to add items to cart");
+    //   navigate("/login");
+    //   return;
+    // }
+    try {
+    await addToCart(product._id, quantity);
+      toast.success("Product added to cart");
+      navigate("/cart")
+    } catch (error) {
+      toast.error("Failed to add product to cart", error);
+    }
   };
 
   const handleQuantityChange = (change) => {
