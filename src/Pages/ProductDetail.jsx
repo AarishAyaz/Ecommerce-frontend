@@ -32,7 +32,6 @@ const ProductDetail = () => {
   const [selectedImage, setSelectedImage] = useState(null);
   const [isFavorite, setIsFavorite] = useState(false);
   const { addToCart } = useContext(CartContext);
-  const { user } = useContext(AuthContext);
 
   useEffect(() => {
     const fetchProduct = async () => {

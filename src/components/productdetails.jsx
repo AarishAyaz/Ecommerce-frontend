@@ -1,11 +1,21 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import { useContext } from "react";
+import CartContext from "../context/CartContext";
+import { useNavigate } from "react-router-dom";
 
 const ProductDetails = () => {
   const { id } = useParams();
   const [product, setProduct] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const { addToCart } = useContext(CartContext); 
+  const navigate = useNavigate();
+
+  const handleAddToCart = async () => {
+    await addToCart(product._id, 1);
+    navigate("/cart");
+  };
 
   useEffect(() => {
     const fetchProduct = async () => {
@@ -63,6 +73,7 @@ const ProductDetails = () => {
           </p>
 
           <button
+          onClick={handleAddToCart}
             className="mt-6 px-6 py-3 bg-black text-white rounded hover:bg-gray-800"
           >
             Add to Cart
