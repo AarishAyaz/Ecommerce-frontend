@@ -33,188 +33,210 @@ import CategoryProductsPage from "./Pages/CategoryProductsPage";
 import ScrollToTop from "./components/ScrollToTop";
 import CartPage from "./Pages/CartPage";
 import CheckoutPage from "./Pages/CheckoutPage";
+import OrderSuccessPage from "./Pages/Order-success";
+import OrdersPage from "./Pages/OrdersPage";
 
 function App() {
   return (
     <>
-    <ScrollToTop />
-    <Routes>
-      {/* Public routes */}
-      <Route path="/login" element={<Login />} />
-      <Route path="/signup" element={<Signup />} />
+      <ScrollToTop />
+      <Routes>
+        {/* Public routes */}
+        <Route path="/login" element={<Login />} />
+        <Route path="/signup" element={<Signup />} />
 
-      {/* User protected routes */}
-      <Route
-        path="/"
-        element={
-          <PrivateRoute>
+        {/* User protected routes */}
+        <Route
+          path="/"
+          element={
+            <PrivateRoute>
+              <Layout>
+                <Home />
+              </Layout>
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/products"
+          element={
             <Layout>
-              <Home />
+              <ProductsPage />
             </Layout>
-          </PrivateRoute>
-        }
-      />
-      <Route
-        path="/products"
-        element={
-          <Layout>
-            <ProductsPage />
-          </Layout>
-        }
-      />
-      <Route
-        path="/product/:id"
-        element={
-          <Layout>
-            <ProductDetail />
-          </Layout>
-        }
-      />
-      <Route
-        path="/articles"
-        element={
-          <Layout>
-            <ViewAllArticlesPage />
-          </Layout>
-        }
-      />
-      <Route
-        path="/articles/:id"
-        element={
-          <Layout>
-            <ArticleDetailPage />
-          </Layout>
-        }
-      />
-      <Route
-        path="/profile"
-        element={
-          <PrivateRoute>
+          }
+        />
+        <Route
+          path="/product/:id"
+          element={
             <Layout>
-              <Profile />
+              <ProductDetail />
             </Layout>
-          </PrivateRoute>
-        }
-      />
-      <Route path="/forgot-password" element={<ForgotPassword />} />
-      {/* Admin protected routes */}
-      <Route
-        path="/admin/dashboard"
-        element={
-          <AdminRoute>
-            <AdminDashboard />
-          </AdminRoute>
-        }
-      />
-      <Route
-        path="/admin/users"
-        element={
-          <AdminRoute>
-            <Users />
-          </AdminRoute>
-        }
-      />
-      <Route
-        path="/admin/users/add"
-        element={
-          <AdminRoute>
-            <AddUser />
-          </AdminRoute>
-        }
-      />
-
-      <Route
-        path="/admin/users/:id/edit"
-        element={
-          <AdminRoute>
-            <EditUser />
-          </AdminRoute>
-        }
-      />
-      <Route path="/admin/categories" element={<AdminCategories />} />
-      <Route
-        path="/admin/categories/add"
-        element={
-          <AdminRoute>
-            <AddCategory />
-          </AdminRoute>
-        }
-      />
-      <Route path="/admin/categories/edit/:id" element={<EditCategory />} />
-      <Route
-        path="/admin/categories/:id/products"
-        element={<CategoryProducts />}
-      />
-      <Route
-        path="/categories"
-        element={
-          <Layout>
-            <CategoriesPage />
-          </Layout>
-        }
-      />
-
-      <Route
-        path="/categories/:id"
-        element={
-          <Layout>
-            <CategoryProductsPage />
-          </Layout>
-        }
-      />
-
-      <Route path="/admin/products" element={<AdminProducts />} />
-      <Route path="/admin/products/add" element={<AddProduct />} />
-      <Route path="/admin/products/view/:id" element={<ViewProduct />} />
-      <Route path="/admin/products/edit/:id" element={<EditProduct />} />
-
-      <Route path="/admin/articles" element={<AdminArticles />} />
-      <Route
-        path="/admin/articles/add"
-        element={
-          <AdminRoute>
-            <AddArticle />
-          </AdminRoute>
-        }
-      />
-      <Route
-        path="/admin/articles/edit/:id"
-        element={
-          <AdminRoute>
-            <EditArticle />
-          </AdminRoute>
-        }
-      />
-      <Route
-        path="/admin/articles/view/:id"
-        element={
-          <AdminRoute>
-            <ViewArticle />
-          </AdminRoute>
-        }
-      />
-
-      <Route
-        path="/cart"
-        element={
-          <PrivateRoute>
+          }
+        />
+        <Route
+          path="/articles"
+          element={
             <Layout>
-              <CartPage />
+              <ViewAllArticlesPage />
             </Layout>
-          </PrivateRoute>
-        }
-      />
-      <Route
-        path="/checkout"
-        element={
-          <PrivateRoute>
+          }
+        />
+        <Route
+          path="/articles/:id"
+          element={
             <Layout>
-              <CheckoutPage />
+              <ArticleDetailPage />
             </Layout>
-          </PrivateRoute>
-        }
-      />
-    </Routes>
+          }
+        />
+        <Route
+          path="/profile"
+          element={
+            <PrivateRoute>
+              <Layout>
+                <Profile />
+              </Layout>
+            </PrivateRoute>
+          }
+        />
+        <Route path="/forgot-password" element={<ForgotPassword />} />
+        {/* Admin protected routes */}
+        <Route
+          path="/admin/dashboard"
+          element={
+            <AdminRoute>
+              <AdminDashboard />
+            </AdminRoute>
+          }
+        />
+        <Route
+          path="/admin/users"
+          element={
+            <AdminRoute>
+              <Users />
+            </AdminRoute>
+          }
+        />
+        <Route
+          path="/admin/users/add"
+          element={
+            <AdminRoute>
+              <AddUser />
+            </AdminRoute>
+          }
+        />
+
+        <Route
+          path="/admin/users/:id/edit"
+          element={
+            <AdminRoute>
+              <EditUser />
+            </AdminRoute>
+          }
+        />
+        <Route path="/admin/categories" element={<AdminCategories />} />
+        <Route
+          path="/admin/categories/add"
+          element={
+            <AdminRoute>
+              <AddCategory />
+            </AdminRoute>
+          }
+        />
+        <Route path="/admin/categories/edit/:id" element={<EditCategory />} />
+        <Route
+          path="/admin/categories/:id/products"
+          element={<CategoryProducts />}
+        />
+        <Route
+          path="/categories"
+          element={
+            <Layout>
+              <CategoriesPage />
+            </Layout>
+          }
+        />
+
+        <Route
+          path="/categories/:id"
+          element={
+            <Layout>
+              <CategoryProductsPage />
+            </Layout>
+          }
+        />
+
+        <Route path="/admin/products" element={<AdminProducts />} />
+        <Route path="/admin/products/add" element={<AddProduct />} />
+        <Route path="/admin/products/view/:id" element={<ViewProduct />} />
+        <Route path="/admin/products/edit/:id" element={<EditProduct />} />
+
+        <Route path="/admin/articles" element={<AdminArticles />} />
+        <Route
+          path="/admin/articles/add"
+          element={
+            <AdminRoute>
+              <AddArticle />
+            </AdminRoute>
+          }
+        />
+        <Route
+          path="/admin/articles/edit/:id"
+          element={
+            <AdminRoute>
+              <EditArticle />
+            </AdminRoute>
+          }
+        />
+        <Route
+          path="/admin/articles/view/:id"
+          element={
+            <AdminRoute>
+              <ViewArticle />
+            </AdminRoute>
+          }
+        />
+
+        <Route
+          path="/cart"
+          element={
+            <PrivateRoute>
+              <Layout>
+                <CartPage />
+              </Layout>
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/checkout"
+          element={
+            <PrivateRoute>
+              <Layout>
+                <CheckoutPage />
+              </Layout>
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/order-success/:id"
+          element={
+            <PrivateRoute>
+              <Layout>
+                <OrderSuccessPage />
+              </Layout>
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/orders"
+          element={
+            <PrivateRoute>
+              <Layout>
+              <OrdersPage />
+              </Layout>
+            </PrivateRoute>
+          }
+        />
+      </Routes>
     </>
   );
 }

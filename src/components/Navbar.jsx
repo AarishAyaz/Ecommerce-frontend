@@ -1,5 +1,13 @@
 import { useState, useEffect } from "react";
-import { Menu, X, LogOut, User, ShoppingBag } from "lucide-react";
+import {
+  Menu,
+  X,
+  LogOut,
+  User,
+  ShoppingBag,
+  ShoppingCart,
+  Package,
+} from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-hot-toast";
 
@@ -53,7 +61,6 @@ const Navbar = () => {
   const handleLogout = () => {
     localStorage.clear();
     setAuth(null);
-    
 
     toast.success("Logged out successfully 👋");
     navigate("/login", { replace: true });
@@ -100,9 +107,30 @@ const Navbar = () => {
                   {item}
                 </button>
               </li>
-            )
+            ),
           )}
-
+          {isAuthenticated && (
+            <li>
+              <button
+                onClick={() => handleNavigate("/cart")}
+                className="relative flex items-center justify-center p-2 text-gray-300 hover:text-white hover:bg-slate-800 rounded-lg"
+                aria-label="Cart"
+              >
+                <ShoppingCart className="w-5 h-5" />
+              </button>
+            </li>
+          )}
+          {isAuthenticated && (
+            <li>
+              <button
+                onClick={() => handleNavigate("/orders")}
+                className="flex items-center gap-2 px-4 py-2 text-gray-300 hover:text-white hover:bg-slate-800 rounded-lg"
+              >
+                <Package className="w-4 h-4" />
+                My Orders
+              </button>
+            </li>
+          )}
           {/* User Info */}
           {isAuthenticated && (
             <>
@@ -130,10 +158,7 @@ const Navbar = () => {
         </ul>
 
         {/* Mobile Toggle */}
-        <button
-          className="lg:hidden text-white"
-          onClick={() => setOpen(!open)}
-        >
+        <button className="lg:hidden text-white" onClick={() => setOpen(!open)}>
           {open ? <X /> : <Menu />}
         </button>
       </div>
@@ -152,7 +177,7 @@ const Navbar = () => {
                     {item}
                   </button>
                 </li>
-              )
+              ),
             )}
 
             {isAuthenticated && (
