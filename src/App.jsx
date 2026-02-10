@@ -199,11 +199,9 @@ function App() {
         <Route
           path="/cart"
           element={
-            <PrivateRoute>
               <Layout>
                 <CartPage />
               </Layout>
-            </PrivateRoute>
           }
         />
         <Route

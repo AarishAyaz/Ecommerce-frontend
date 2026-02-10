@@ -1,6 +1,7 @@
 import { createContext, useEffect, useState, useContext } from "react";
 import axios from "../axios"; // 👈 YOUR INSTANCE
 import { AuthContext } from "./AuthContext";
+import { useCallback } from "react";
 
 const CartContext = createContext();
 
@@ -8,12 +9,15 @@ export const CartProvider = ({ children }) => {
   const { user } = useContext(AuthContext);
   const [cart, setCart] = useState([]);
 
-const fetchCart = async () => {
-  if (!user) return setCart([]);
+
+const fetchCart = useCallback(async () => {
+  if (!user) {
+    setCart([]);
+    return;
+  }
 
   try {
     const res = await axios.get("/api/cart");
-    console.log("CART RESPONSE:", res.data);
 
     const items = (res.data.items || []).filter(
       i => typeof i.product === "object"
@@ -24,7 +28,7 @@ const fetchCart = async () => {
     console.error("Fetch cart failed", err);
     setCart([]);
   }
-};
+}, [user]);
 
 
   const addToCart = async (productId, quantity = 1) => {
@@ -46,11 +50,9 @@ const fetchCart = async () => {
     }
   };
 
-  useEffect(() => {
-      console.log("AUTH USER IN CART CONTEXT:", user);
-
-    fetchCart();
-  }, [user]);
+useEffect(() => {
+  fetchCart();
+}, [fetchCart]);
   const clearCart = async () => {
   try {
     await axios.delete("/api/cart/clear");

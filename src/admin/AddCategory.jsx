@@ -9,24 +9,47 @@ const AddCategory = () => {
   const [description, setDescription] = useState("");
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+  const [image, setImage] = useState(null);
+  const [preview, setPreview] = useState(null);
 
-  const submitHandler = async (e) => {
-    e.preventDefault();
-    if (!name.trim()) return toast.error("Category name is required");
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
 
-    setLoading(true);
-
-    try {
-      await createCategory({ name, description });
-      toast.success("Category created successfully");
-      navigate("/admin/categories");
-    } catch (error) {
-      console.error(error.response?.data);
-      toast.error(error.response?.data?.message || "Creation failed");
-    } finally {
-      setLoading(false);
+    if (!file.type.startsWith("image/")) {
+      toast.error("Only image files are allowed");
+      return;
     }
+    setImage(file);
+    setPreview(URL.createObjectURL(file));
   };
+
+const submitHandler = async (e) => {
+  e.preventDefault();
+
+  if (!name.trim()) return toast.error("Category name is required");
+  if (!image) return toast.error("Category image is required");
+
+  setLoading(true);
+
+  try {
+    const formData = new FormData();
+    formData.append("name", name);
+    formData.append("description", description);
+    formData.append("image", image);
+
+    await createCategory(formData);
+
+    toast.success("Category created successfully");
+    navigate("/admin/categories");
+  } catch (error) {
+    console.error(error.response?.data);
+    toast.error(error.response?.data?.message || "Creation failed");
+  } finally {
+    setLoading(false);
+  }
+};
+
 
   const handleBack = () => {
     navigate("/admin/categories");
@@ -35,7 +58,6 @@ const AddCategory = () => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-black pt-20 pb-12 px-4">
       <div className="max-w-2xl mx-auto">
-        
         {/* Back Button */}
         <button
           onClick={handleBack}
@@ -43,25 +65,32 @@ const AddCategory = () => {
                    mb-6 sm:mb-8 transition-colors"
         >
           <ArrowLeft className="w-5 h-5 group-hover:-translate-x-1 transition-transform" />
-          <span className="text-sm sm:text-base font-medium">Back to Categories</span>
+          <span className="text-sm sm:text-base font-medium">
+            Back to Categories
+          </span>
         </button>
 
         {/* Form Card */}
-        <div className="bg-gradient-to-br from-slate-800 to-slate-900 rounded-3xl 
-                      border border-slate-700 shadow-2xl overflow-hidden">
-          
+        <div
+          className="bg-gradient-to-br from-slate-800 to-slate-900 rounded-3xl 
+                      border border-slate-700 shadow-2xl overflow-hidden"
+        >
           {/* Header Section */}
-          <div className="relative bg-gradient-to-r from-green-600 via-emerald-600 to-teal-600 
-                        px-6 sm:px-8 py-8 sm:py-10 overflow-hidden">
+          <div
+            className="relative bg-gradient-to-r from-green-600 via-emerald-600 to-teal-600 
+                        px-6 sm:px-8 py-8 sm:py-10 overflow-hidden"
+          >
             <div className="absolute top-0 right-0 w-32 h-32 bg-emerald-500 rounded-full blur-3xl opacity-20"></div>
             <div className="absolute bottom-0 left-0 w-32 h-32 bg-teal-500 rounded-full blur-3xl opacity-20"></div>
-            
+
             <div className="relative z-10 flex items-center gap-4 sm:gap-6">
-              <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-full bg-white/10 backdrop-blur-md 
-                            border-2 border-white/20 flex items-center justify-center shadow-xl">
+              <div
+                className="w-16 h-16 sm:w-20 sm:h-20 rounded-full bg-white/10 backdrop-blur-md 
+                            border-2 border-white/20 flex items-center justify-center shadow-xl"
+              >
                 <Layers className="w-8 h-8 sm:w-10 sm:h-10 text-white" />
               </div>
-              
+
               <div>
                 <h1 className="text-2xl sm:text-3xl font-bold text-white mb-1">
                   Add New Category
@@ -77,7 +106,6 @@ const AddCategory = () => {
           <form onSubmit={submitHandler}>
             <div className="p-6 sm:p-8">
               <div className="space-y-6">
-                
                 {/* Category Details Section */}
                 <div>
                   <div className="flex items-center gap-2 mb-4">
@@ -116,11 +144,62 @@ const AddCategory = () => {
                         Choose a clear, descriptive name for this category
                       </p>
                     </div>
+                    {/* Category Image */}
+                    <div>
+                      <label className="block text-sm font-semibold text-gray-200 mb-2">
+                        Category Image <span className="text-red-400">*</span>
+                      </label>
+
+                      <div className="flex items-center gap-4">
+                        {/* Preview */}
+                        <div
+                          className="w-24 h-24 rounded-xl border-2 border-dashed border-slate-600 
+                    flex items-center justify-center overflow-hidden bg-slate-700"
+                        >
+                          {preview ? (
+                            <img
+                              src={preview}
+                              alt="Preview"
+                              className="w-full h-full object-cover"
+                            />
+                          ) : (
+                            <span className="text-xs text-gray-400 text-center px-2">
+                              Image Preview
+                            </span>
+                          )}
+                        </div>
+
+                        {/* File Input */}
+                        <label className="cursor-pointer">
+                          <input
+                            type="file"
+                            accept="image/*"
+                            onChange={handleImageChange}
+                            className="hidden"
+                          />
+                          <div
+                            className="px-5 py-3 bg-slate-700 hover:bg-slate-600 
+                   border border-slate-600 rounded-xl
+                   text-sm font-semibold text-white
+                   transition-all"
+                          >
+                            Upload Image
+                          </div>
+                        </label>
+                      </div>
+
+                      <p className="mt-2 text-xs text-gray-500">
+                        Recommended: 800×800px · JPG, PNG, WEBP · Max 2MB
+                      </p>
+                    </div>
 
                     {/* Category Description (Optional) */}
                     <div>
                       <label className="block text-sm font-semibold text-gray-200 mb-2">
-                        Description <span className="text-gray-500 text-xs">(Optional)</span>
+                        Description{" "}
+                        <span className="text-gray-500 text-xs">
+                          (Optional)
+                        </span>
                       </label>
                       <div className="relative">
                         <textarea
@@ -136,22 +215,29 @@ const AddCategory = () => {
                         />
                       </div>
                       <p className="mt-2 text-xs text-gray-500">
-                        Help customers understand what products belong in this category
+                        Help customers understand what products belong in this
+                        category
                       </p>
                     </div>
 
                     {/* Preview */}
                     {name.trim() && (
                       <div className="bg-slate-700/50 rounded-xl p-4 border-2 border-slate-600">
-                        <p className="text-xs text-gray-400 mb-2 font-semibold">Preview:</p>
+                        <p className="text-xs text-gray-400 mb-2 font-semibold">
+                          Preview:
+                        </p>
                         <div className="flex items-center gap-3">
                           <div className="w-10 h-10 rounded-lg bg-green-600/20 flex items-center justify-center">
                             <Layers className="w-5 h-5 text-green-400" />
                           </div>
                           <div>
-                            <p className="text-base font-bold text-white">{name}</p>
+                            <p className="text-base font-bold text-white">
+                              {name}
+                            </p>
                             {description && (
-                              <p className="text-sm text-gray-400 line-clamp-1">{description}</p>
+                              <p className="text-sm text-gray-400 line-clamp-1">
+                                {description}
+                              </p>
                             )}
                           </div>
                         </div>
@@ -165,8 +251,10 @@ const AddCategory = () => {
                   <Info className="w-5 h-5 text-blue-400 flex-shrink-0 mt-0.5" />
                   <div>
                     <p className="text-sm text-blue-300">
-                      <strong>Important:</strong> Categories help organize your products and make it easier 
-                      for customers to find what they're looking for. You can always edit or delete categories later.
+                      <strong>Important:</strong> Categories help organize your
+                      products and make it easier for customers to find what
+                      they're looking for. You can always edit or delete
+                      categories later.
                     </p>
                   </div>
                 </div>
@@ -221,7 +309,10 @@ const AddCategory = () => {
           <ul className="space-y-2 text-sm text-gray-400">
             <li className="flex items-start gap-2">
               <span className="text-green-400 mt-0.5">•</span>
-              <span>Use clear, single-word names when possible (e.g., "Electronics" not "Electronic Items")</span>
+              <span>
+                Use clear, single-word names when possible (e.g., "Electronics"
+                not "Electronic Items")
+              </span>
             </li>
             <li className="flex items-start gap-2">
               <span className="text-green-400 mt-0.5">•</span>
@@ -229,7 +320,10 @@ const AddCategory = () => {
             </li>
             <li className="flex items-start gap-2">
               <span className="text-green-400 mt-0.5">•</span>
-              <span>Avoid creating too many categories - aim for 5-15 main categories</span>
+              <span>
+                Avoid creating too many categories - aim for 5-15 main
+                categories
+              </span>
             </li>
           </ul>
         </div>
