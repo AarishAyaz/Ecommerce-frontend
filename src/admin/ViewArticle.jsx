@@ -8,6 +8,7 @@ const ViewArticle = () => {
   const navigate = useNavigate();
   const [article, setArticle] = useState(null);
   const [loading, setLoading] = useState(true);
+const BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:5000";
 
   useEffect(() => {
     const loadArticle = async () => {
@@ -66,7 +67,7 @@ const ViewArticle = () => {
         {/* Image */}
         {article.image && (
           <img
-            src={`http://localhost:5000${article.image.startsWith("/uploads/") ? article.image : `/uploads/${article.image}`}`}
+            src={`${BASE_URL}${article.image}`}
             alt={article.title}
             className="w-full h-80 object-cover rounded-lg mb-6"
           />

@@ -25,6 +25,8 @@ const EditArticle = () => {
   const [loading, setLoading] = useState(true);
   const [submitting, setSubmitting] = useState(false);
   const [currentImage, setCurrentImage] = useState(null);
+  const BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:5000";
+
 
   useEffect(() => {
     const loadArticle = async () => {
@@ -321,7 +323,7 @@ const EditArticle = () => {
                         Current Image
                       </p>
                       <img
-                        src={`http://localhost:5000/uploads/${currentImage}`}
+                        src={`${BASE_URL}${currentImage}`}
                         alt="Current"
                         className="w-64 rounded-xl border border-slate-600"
                       />
