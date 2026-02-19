@@ -35,6 +35,8 @@ import CartPage from "./Pages/CartPage";
 import CheckoutPage from "./Pages/CheckoutPage";
 import OrderSuccessPage from "./Pages/Order-success";
 import OrdersPage from "./Pages/OrdersPage";
+import AdminOrdersPage from "./admin/AdminOrdersPage";
+import AdminOrderDetailPage from "./admin/AdminOrderDetailPage";
 
 function App() {
   return (
@@ -234,6 +236,23 @@ function App() {
             </PrivateRoute>
           }
         />
+        <Route
+  path="/admin/orders"
+  element={
+    <AdminRoute>
+      <AdminOrdersPage />
+    </AdminRoute>
+  }
+/>
+
+<Route
+  path="/admin/orders/:id"
+  element={
+    <AdminRoute>
+      <AdminOrderDetailPage />
+    </AdminRoute>
+  }
+/>
       </Routes>
     </>
   );

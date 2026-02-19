@@ -9,7 +9,7 @@ import {
   Eye,
   Edit,
   Plus,
-  BarChart3,
+  ShoppingCart,
 } from "lucide-react";
 import toast from "react-hot-toast";
 import { useEffect, useState } from "react";
@@ -23,6 +23,7 @@ const AdminDashboard = () => {
     totalProducts: 0,
     totalCategories: 0,
     totalArticles: 0,
+    totalOrders: 0,
   });
 
   useEffect(() => {
@@ -31,7 +32,8 @@ const AdminDashboard = () => {
         const { data } = await axios.get("/api/stats/admin");
         setStats(data);
       } catch (error) {
-        toast.error("Failed to load stats", error);
+        console.error("Failed to load stats", error);
+        toast.error("Failed to load stats");
       }
     };
     fetchStats();
@@ -89,11 +91,20 @@ const AdminDashboard = () => {
       actions: ["View All", "Add Category"],
     },
     {
+      id: "orders",
+      title: "Orders",
+      description: "View and manage customer orders",
+      icon: ShoppingCart,
+      color: "from-yellow-600 to-orange-600",
+      stats: stats.totalOrders,
+      actions: ["View All", "Pending Orders"],
+    },
+    {
       id: "articles",
       title: "Articles",
       description: "Create and manage blog articles",
       icon: FileText,
-      color: "from-orange-600 to-red-600",
+      color: "from-red-600 to-pink-600",
       stats: stats.totalArticles,
       actions: ["View All", "Write Article"],
     },
@@ -111,7 +122,7 @@ const AdminDashboard = () => {
               </div>
               <div>
                 <h1 className="text-2xl font-bold text-white">
-                   Shop Hub Admin Dashboard
+                  Shop Hub Admin Dashboard
                 </h1>
                 <p className="text-sm text-gray-400">
                   Manage your e-commerce platform
@@ -143,7 +154,7 @@ const AdminDashboard = () => {
         </div>
 
         {/* ================= CARDS ================= */}
-        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-5 gap-6">
           {managementCards.map((card) => {
             const Icon = card.icon;
 
@@ -152,17 +163,18 @@ const AdminDashboard = () => {
                 key={card.id}
                 className="group bg-gradient-to-br from-slate-800 to-slate-900
                            rounded-2xl border border-slate-700
-                           shadow-xl transition-all duration-500 overflow-hidden"
+                           shadow-xl transition-all duration-500 overflow-hidden
+                           hover:shadow-2xl hover:scale-105"
               >
                 {/* Card Header */}
                 <div className={`relative bg-gradient-to-r ${card.color} p-6`}>
                   <div className="absolute top-0 right-0 w-24 h-24 bg-white/10 rounded-full blur-2xl" />
                   <div className="relative z-10 flex items-center justify-between">
-                    <div className="w-14 h-14 rounded-xl bg-white/20 flex items-center justify-center">
+                    <div className="w-14 h-14 rounded-xl bg-white/20 backdrop-blur-sm flex items-center justify-center">
                       <Icon className="w-7 h-7 text-white" />
                     </div>
                     <div className="text-right">
-                      <p className="text-xs text-white/70">Total</p>
+                      <p className="text-xs text-white/70 font-medium">Total</p>
                       <p className="text-3xl font-bold text-white">
                         {card.stats}
                       </p>
@@ -184,6 +196,7 @@ const AdminDashboard = () => {
                     {card.actions.map((action, idx) => {
                       const isView = action.toLowerCase().includes("view");
                       const isAdd = action.toLowerCase().includes("add");
+                      const isPending = action.toLowerCase().includes("pending");
 
                       return (
                         <button
@@ -196,6 +209,8 @@ const AdminDashboard = () => {
                               action.toLowerCase().includes("write")
                             ) {
                               handleAdd(card.id);
+                            } else if (isPending) {
+                              navigate(`/admin/${card.id}?status=pending`);
                             } else {
                               handleExtraAction(card.id, action);
                             }
@@ -209,7 +224,8 @@ const AdminDashboard = () => {
                           <span>{action}</span>
                           {isView && <Eye className="w-4 h-4" />}
                           {isAdd && <Plus className="w-4 h-4" />}
-                          {!isView && !isAdd && <Edit className="w-4 h-4" />}
+                          {isPending && <ShoppingCart className="w-4 h-4" />}
+                          {!isView && !isAdd && !isPending && <Edit className="w-4 h-4" />}
                         </button>
                       );
                     })}
@@ -237,10 +253,11 @@ const AdminDashboard = () => {
               <button
                 onClick={() => handleAdd("products")}
                 className="flex items-center gap-3 p-4 bg-slate-800 hover:bg-slate-700
-                           rounded-xl border border-slate-700 transition-all cursor-pointer"
+                           rounded-xl border border-slate-700 hover:border-purple-500/50
+                           transition-all cursor-pointer"
               >
-                <div className="w-10 h-10 rounded-lg bg-indigo-600/20 flex items-center justify-center">
-                  <Plus className="w-5 h-5 text-indigo-400" />
+                <div className="w-10 h-10 rounded-lg bg-purple-600/20 flex items-center justify-center">
+                  <Plus className="w-5 h-5 text-purple-400" />
                 </div>
                 <div>
                   <p className="text-sm font-semibold text-white">
@@ -253,10 +270,11 @@ const AdminDashboard = () => {
               <button
                 onClick={() => handleAdd("articles")}
                 className="flex items-center gap-3 p-4 bg-slate-800 hover:bg-slate-700
-                           rounded-xl border border-slate-700 transition-all cursor-pointer"
+                           rounded-xl border border-slate-700 hover:border-red-500/50
+                           transition-all cursor-pointer"
               >
-                <div className="w-10 h-10 rounded-lg bg-green-600/20 flex items-center justify-center">
-                  <FileText className="w-5 h-5 text-green-400" />
+                <div className="w-10 h-10 rounded-lg bg-red-600/20 flex items-center justify-center">
+                  <FileText className="w-5 h-5 text-red-400" />
                 </div>
                 <div>
                   <p className="text-sm font-semibold text-white">
@@ -265,35 +283,38 @@ const AdminDashboard = () => {
                   <p className="text-xs text-gray-400">Write blog post</p>
                 </div>
               </button>
+
               <button
                 onClick={() => handleAdd("categories")}
                 className="flex items-center gap-3 p-4 bg-slate-800 hover:bg-slate-700
-                           rounded-xl border border-slate-700 transition-all cursor-pointer"
+                           rounded-xl border border-slate-700 hover:border-green-500/50
+                           transition-all cursor-pointer"
               >
                 <div className="w-10 h-10 rounded-lg bg-green-600/20 flex items-center justify-center">
-                  <FileText className="w-5 h-5 text-green-400" />
+                  <Layers className="w-5 h-5 text-green-400" />
                 </div>
                 <div>
                   <p className="text-sm font-semibold text-white">
                     New Category
                   </p>
-                  <p className="text-xs text-gray-400">Write blog post</p>
+                  <p className="text-xs text-gray-400">Add category</p>
                 </div>
               </button>
 
               <button
-                onClick={() => handleViewAll("users")}
+                onClick={() => navigate("/admin/orders?status=pending")}
                 className="flex items-center gap-3 p-4 bg-slate-800 hover:bg-slate-700
-                           rounded-xl border border-slate-700 transition-all cursor-pointer"
+                           rounded-xl border border-slate-700 hover:border-yellow-500/50
+                           transition-all cursor-pointer"
               >
-                <div className="w-10 h-10 rounded-lg bg-blue-600/20 flex items-center justify-center">
-                  <Users className="w-5 h-5 text-blue-400" />
+                <div className="w-10 h-10 rounded-lg bg-yellow-600/20 flex items-center justify-center">
+                  <ShoppingCart className="w-5 h-5 text-yellow-400" />
                 </div>
                 <div>
                   <p className="text-sm font-semibold text-white">
-                    User Activity
+                    Pending Orders
                   </p>
-                  <p className="text-xs text-gray-400">Monitor users</p>
+                  <p className="text-xs text-gray-400">Review orders</p>
                 </div>
               </button>
             </div>
