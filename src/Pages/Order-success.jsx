@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import {
   Home,
@@ -16,6 +16,7 @@ import {
   Clock,
 } from "lucide-react";
 import toast from "react-hot-toast";
+import CartContext from "../context/CartContext";
 
 const BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:5000";
 
@@ -26,7 +27,7 @@ const OrderSuccessPage = () => {
   const [order, setOrder] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-
+   const { clearCart } = useContext(CartContext);
   const auth = JSON.parse(localStorage.getItem("auth"));
   const token = auth?.token;
 
@@ -37,6 +38,10 @@ const OrderSuccessPage = () => {
     }
     fetchOrder();
   }, [id, token, navigate]);
+
+  useEffect(() => {
+    clearCart();
+  }, []);
 
   const fetchOrder = async () => {
     try {

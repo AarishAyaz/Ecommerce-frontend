@@ -46,21 +46,15 @@ const CheckoutPage = () => {
   const token = auth?.token;
   const user = auth?.user;
 
-  useEffect(() => {
-    // Only redirect if cart is empty on initial load
-    if (!cart.length && !loading) {
-      navigate("/cart");
-    }
-
-    // Pre-fill user info if available
-    if (user) {
-      setShippingInfo(prev => ({
-        ...prev,
-        fullName: user.name || "",
-        email: user.email || ""
-      }));
-    }
-  }, [user]); // Removed cart and navigate from dependencies
+ useEffect(() => {
+  if (user) {
+    setShippingInfo(prev => ({
+      ...prev,
+      fullName: user.name || "",
+      email: user.email || ""
+    }));
+  }
+}, [user]);
 
   const subtotal = cart.reduce(
     (sum, i) => sum + i.product.price * i.quantity,
@@ -136,12 +130,9 @@ const CheckoutPage = () => {
       }
 
       // Navigate first, then clear cart after a short delay
-      navigate(`/order-success/${data._id}`);
-      
-      // Clear cart after navigation
-      setTimeout(() => {
-        clearCart();
-      }, 100);
+  
+// Then navigate
+navigate(`/order-success/${data._id}`, { replace: true });
       
     } catch (err) {
       console.error(err);
