@@ -424,11 +424,11 @@ const OrdersPage = () => {
                             <div className="w-12 h-12 bg-slate-800 rounded-lg overflow-hidden flex-shrink-0">
                               {item.product?.image && (
                                 <img
-                                  src={
-                                    item.product.image.startsWith("/uploads")
-                                      ? `${BASE_URL}${item.product.image}`
-                                      : `${BASE_URL}/uploads/${item.product.image}`
-                                  }
+                          src={
+                            item.product?.image
+                              ? `${BASE_URL}${item.product.image.startsWith("/") ? "" : "/"}${item.product.image}`
+                              : "/placeholder.png"
+                          }
                                   alt={item.product.name}
                                   className="w-full h-full object-cover"
                                 />

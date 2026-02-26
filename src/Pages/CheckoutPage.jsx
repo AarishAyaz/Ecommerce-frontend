@@ -1,10 +1,9 @@
-import { useContext, useState, useEffect } from "react";
+import { useContext, useState, useEffect, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 import CartContext from "../context/CartContext";
 import {
   Home,
   ChevronRight,
-  ShoppingCart,
   CreditCard,
   MapPin,
   User,
@@ -22,11 +21,11 @@ const BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:5000";
 
 const CheckoutPage = () => {
   const navigate = useNavigate();
-  const { cart, clearCart } = useContext(CartContext);
+  const { cart } = useContext(CartContext);
 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
-  const [step, setStep] = useState(1); // 1: Shipping, 2: Payment, 3: Review
+  const [step, setStep] = useState(1);
 
   // Form state
   const [shippingInfo, setShippingInfo] = useState({
@@ -42,19 +41,28 @@ const CheckoutPage = () => {
 
   const [paymentMethod, setPaymentMethod] = useState("card");
 
-  const auth = JSON.parse(localStorage.getItem("auth"));
+  // ✅ FIX: Use useMemo to prevent object reference changes on every render
+  const auth = useMemo(() => {
+    const stored = localStorage.getItem("auth");
+    return stored ? JSON.parse(stored) : null;
+  }, []);
+  
   const token = auth?.token;
   const user = auth?.user;
 
- useEffect(() => {
-  if (user) {
-    setShippingInfo(prev => ({
-      ...prev,
-      fullName: user.name || "",
-      email: user.email || ""
-    }));
-  }
-}, [user]);
+  // ✅ FIX: Only run once on mount (empty dependency array)
+  // or use specific primitive values if you need reactivity
+  useEffect(() => {
+    if (user?.name || user?.email) {
+      setShippingInfo(prev => ({
+        ...prev,
+        fullName: user.name || "",
+        email: user.email || ""
+      }));
+    }
+  }, [user?.name, user?.email]); // Use primitive values instead of object
+
+  // ... rest of your code remains the same
 
   const subtotal = cart.reduce(
     (sum, i) => sum + i.product.price * i.quantity,

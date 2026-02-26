@@ -1,16 +1,175 @@
-# React + Vite
+🚀 Production-Ready MERN E-Commerce & Content Management Platform
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Over the past few months, I architected and developed a full-stack ecommerce ecosystem with role-based administration, content management, analytics, and secure authentication workflows.
 
-Currently, two official plugins are available:
+This was not just a frontend build — it involved backend architecture design, REST API structuring, authentication security, role enforcement, and modular scalability.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+🏗️ System Architecture
+🔹 Backend (Node.js + Express)
 
-## React Compiler
+Modular route-based architecture
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+RESTful API design
 
-## Expanding the ESLint configuration
+MVC pattern implementation
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+MongoDB database integration
+
+Centralized middleware handling
+
+Environment-based configuration
+
+Static file serving for uploads
+
+CORS configuration for production & local environments
+
+Request logging using morgan
+
+🔹 API Modules Implemented
+
+/api/auth → Authentication system
+
+/api/users → User profile management
+
+/api/admin/users → Admin-level user management
+
+/api/products → Product CRUD
+
+/api/categories → Category CRUD
+
+/api/articles → Article/Blog CRUD
+
+/api/orders → User order management
+
+/api/admin/orders → Admin order control & status management
+
+/api/cart → Persistent cart logic
+
+/api/stats → Dynamic dashboard statistics
+
+🔐 Authentication & Security
+
+JWT-based authentication
+
+Role-Based Access Control (RBAC)
+
+PrivateRoute & AdminRoute protection on frontend
+
+Secure password handling
+
+OTP-based Forgot Password flow
+
+Email verification via Resend API
+
+Protected admin dashboard routes
+
+Credential-based CORS configuration
+
+🛍️ E-Commerce Features
+
+Product CRUD (Admin)
+
+Category CRUD (Admin)
+
+Dynamic category-product mapping
+
+Article/Blog management system
+
+Cart management system
+
+Checkout flow
+
+Order placement & tracking
+
+Order success handling
+
+User order history
+
+Admin order status updates
+
+Structured order detail views
+
+Dynamic statistics dashboard (orders, users, products, revenue-ready structure)
+
+🧑‍💼 Admin Capabilities
+
+Role-based admin dashboard
+
+User creation / editing / management
+
+Product management (add, edit, view, delete)
+
+Category management
+
+Article management
+
+Order monitoring & processing
+
+Admin-only analytics endpoints
+
+Permission-based route enforcement
+
+🎨 Frontend (React Ecosystem)
+
+React Router DOM (protected & nested routing)
+
+Layout-based architecture
+
+Scroll management handling
+
+Modular page structure
+
+Dynamic route parameters (:id)
+
+PrivateRoute & AdminRoute abstraction
+
+Axios-based API communication
+
+Component-based UI structure
+
+📊 Engineering Highlights
+
+Designed scalable API folder structure
+
+Implemented strict separation of concerns
+
+Built reusable middleware for authentication & authorization
+
+Handled dynamic admin/user permission boundaries
+
+Implemented secure OTP password reset using external email service
+
+Configured production-ready CORS policies
+
+Managed file uploads and static serving
+
+Designed stats endpoint for dashboard aggregation
+
+Created clean route segmentation for long-term scalability
+
+📚 What I Learned
+
+This project significantly strengthened my:
+
+API architecture & backend structuring
+
+Role-based security implementation
+
+Authentication flow design (JWT + OTP)
+
+State synchronization between frontend & backend
+
+Debugging complex route protection issues
+
+Designing scalable admin systems
+
+Production-level CORS & deployment configuration
+
+Writing maintainable, modular, real-world codebases
+
+More than just building features, I learned how to design systems that scale, enforce security boundaries, and maintain clean architecture under growth.
+
+RUN COMMAND:
+npm run dev
+
+#MERNStack #FullStackDeveloper #NodeJS #ReactJS #MongoDB #ExpressJS #RESTAPI #Authentication #RBAC #SoftwareEngineering #EcommercePlatform

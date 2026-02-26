@@ -27,7 +27,7 @@ const OrderSuccessPage = () => {
   const [order, setOrder] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-   const { clearCart } = useContext(CartContext);
+  const { clearCart } = useContext(CartContext);
   const auth = JSON.parse(localStorage.getItem("auth"));
   const token = auth?.token;
 
@@ -248,7 +248,11 @@ const OrderSuccessPage = () => {
                     <div className="w-20 h-20 bg-slate-800 rounded-lg overflow-hidden flex-shrink-0">
                       {item.product?.image && (
                         <img
-                          src={`${BASE_URL}/${item.product?.image}`}
+                          src={
+                            item.product?.image
+                              ? `${BASE_URL}${item.product.image.startsWith("/") ? "" : "/"}${item.product.image}`
+                              : "/placeholder.png"
+                          }
                           alt={item.product?.name || "Product"}
                           className="w-full h-full object-cover"
                         />
